@@ -1,0 +1,11 @@
+.deleteButton {
+    color: rgb(241, 85, 28);
+    border-color: rgb(241, 85, 28);
+    margin-right: 10px;
+    border: 2px solid;
+}
+
+.noDeleteButton {
+    color: var(--color);
+    border-color: var(--border-color);
+}

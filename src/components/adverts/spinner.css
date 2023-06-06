@@ -1,0 +1,23 @@
+.spinnerHere{
+  background: none;
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: 45%;
+  opacity: 60%;
+}
+.spinner{
+  display: inline-block;
+  border:20px solid #f2f2f2;
+  border-bottom: 20px solid #f4e75e;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: loader 2s linear infinite;
+}
+
+@keyframes loader{
+  0%{transform: rotate(0deg);}
+  100%{transform: rotate(360deg);}
+}
+

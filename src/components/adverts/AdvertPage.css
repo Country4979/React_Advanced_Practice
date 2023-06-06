@@ -1,0 +1,51 @@
+img {
+    border-radius: 15px;
+    max-height: 25%px;
+}
+
+h1 {
+    font-family: inherit;
+    font-size: 5rem;
+    margin-bottom: 5px;
+}
+
+.product h2 {
+    display: inline-block;
+    margin-top:15px;
+    margin-left: auto;
+    padding: 5px;
+    border-style: dashed;
+    border-radius: 5px;
+    color: darkred;
+    font-size: 3rem;
+}
+p {
+    font-size: 1.5rem;
+}
+span {
+    font-size: 2rem;
+    font-weight: bold;    
+}
+.typeTag p{
+    font-weight: bold;
+}
+
+.productContainer{
+    margin: 10px auto;
+    width: 80%;
+    color: var(--color);
+    border: var(--border-color) solid;
+    border-radius: 55px;
+    justify-content: center;
+}
+.productInfo{
+    margin: auto;
+}
+img {
+    border-radius: 15px;
+    height: 188px;
+}
+
+.typeTag p{
+    font-weight: bold;
+}

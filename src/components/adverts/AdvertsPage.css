@@ -1,0 +1,79 @@
+h1{
+  color: var(--color);
+  font-family: var(--font-base);
+  margin-top: 10px;
+}
+
+h2 {
+  font-size: 5vh;
+}
+
+.filterArea {
+  margin: auto;
+  border: 2px solid var(--border-color);
+  border-radius: 25px;
+  width: 90%;
+}
+
+.filters label {
+  margin-left: 2px;
+  text-align: left;
+}
+
+label {
+  color: var(--color);
+  margin-left: 2px;
+  margin-right: 10px;
+  text-align: right;
+  font-weight: bold;
+}
+
+::placeholder {
+  color: var(--color);
+  text-align: center;
+}
+.listContainer{
+  margin: auto;
+  padding: 5px;
+  width: 90%;
+}
+
+.listContainer ul{
+  margin: 0%;
+  padding: 0%;
+}
+
+.listContainer img {
+  height: 150px;
+}
+
+.listContainer li{
+  border: 2px solid var(--border-color);
+  border-radius: 15px;
+  text-align: center;
+}
+
+.listContainer li .product-img {
+  margin: 0 auto;
+}
+
+.numberInputs {
+  color: var(--color);
+  width: 100px;
+  margin-right: 5px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color)
+}
+
+.listContainer h1{
+  font-size: 4vh;
+  color: var(--border-color);
+}
+.listContainer p{
+  color: var(--color)
+}
+.contaienrTittle H1{
+  margin: 10px auto;
+  font-size: 5vh;
+  font-family: var(--font-base);
+}

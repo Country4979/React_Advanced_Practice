@@ -1,0 +1,41 @@
+
+.navbar a {
+    text-decoration: none;
+  }
+  
+  .navbar a:visited {
+    text-decoration: none;
+    color: white /*var(--NavBar-Text-color)*/;
+  }
+  
+  .navbar a:active {
+    color: blue/*var(--NavBar-Active-color)*/;
+  }
+  
+  .navbar {
+    color: red/*var(--NavBar-Text-color)*/;
+    font-family: 'Ananda', 'Ananda Black';
+    font-style: italic;
+    font-size: 2rem;
+    background-color: var(--NavBar-Background-color);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+  }
+
+  #logged p{
+    font-size: 16px; 
+    text-align: center;
+    font-weight: normal;
+    margin: 0;
+  }
+  
+  #logged span{
+    font-weight: bolder;
+  }

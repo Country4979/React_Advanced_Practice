@@ -1,0 +1,9 @@
+@import url('https://fonts.cdnfonts.com/css/ananda-2');
+:root {
+  --color: rgb(227, 201, 129);
+  --border-color: rgb(210, 156, 5);
+  --NavBar-Background-color:  beige;
+  --NavBar-Text-color: rgb(210, 156, 5);
+  --NavBar-Active-color: rgb(227, 201, 129);
+  --font-base: 'Ananda', 'Ananda Black';
+}

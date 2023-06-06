@@ -1,0 +1,26 @@
+.loadingPage {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+    color: var(--color);
+    font-style: oblique;
+  }
+  .loadingInfo {
+      position: relative;
+      margin: 25% auto;
+      padding: 5px;
+      border-radius: 15px;
+      min-width: 320px;
+      max-width: 480px;
+      min-height: 200px;
+      max-height: 600px;
+      overflow-y: auto;
+      background-color: #fff;
+      align-items: center;
+  }

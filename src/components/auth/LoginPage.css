@@ -1,0 +1,115 @@
+/*Loginpage*/
+label{
+    display: inline-block;
+    width: 80px;
+    margin-bottom: 10px;
+    text-align: right;
+  }
+  button {
+      border-radius: 5px;
+      margin-top: 10px;
+      margin-left: 10px;
+  }
+  
+  .infoContainer {
+      border: solid 1px rgb(247, 211, 66);
+      border-radius: 15px;
+      margin-top:5px;
+      margin-left: 10px;
+      margin-right: 10px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: 10px;
+      grid-row-gap: 10px;
+      justify-content: center;
+  
+  }
+  
+  .rigthSide {
+      text-align: center;
+      display: inline-block;
+      justify-content: space-around;
+      background-color: beige;
+      border-radius: 15px;
+      margin-top: 20px;
+      margin-right: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;  
+  }
+  
+  .rigthSide p {
+      margin-bottom: 10px;
+  }
+  
+  .leftSide {
+      display: block;
+      text-align: center;
+  }
+  
+  .tittle {
+      text-align: center;
+      font-style: oblique;
+      text-decoration: underline;
+  }
+  
+  .closeSessionBefore{
+      text-align: right;
+      margin-right: -130px;
+  }
+  
+  #loginLink {
+      display: none;
+  }
+  
+  #hello {
+      width: 100%;
+      padding: 15px;
+      padding-top: -15px;
+      border-radius: 15px;
+      font-family: 'Ananda', 'Ananda Black';
+      position: fixed;
+      bottom: 10%;
+      z-index: 99;
+      font-size: 3rem;
+  }
+  
+  #hello p{
+      text-align: center;
+  }
+  
+  #textLogin {
+      width: 100%;
+      font-style: oblique;
+      text-decoration: underline;
+  }
+  
+  #logUser {
+      padding-top: 10px;
+      margin-left: 25px;
+  }
+  
+  #closeSessions {
+      color: rgb(210, 156, 5);
+      font-family: 'Ananda', 'Ananda Black';
+      font-weight: bolder;
+      font-style: oblique;
+      font-size: x-large;
+  }
+  
+  a {
+      text-decoration: none;
+      font-style: italic;
+  }
+  
+  a:visited {
+      text-decoration: none;
+      color: rgb(210, 156, 5);
+  }
+  
+  a:active {
+      color: rgb(227, 201, 129);
+  }
+
+  #textLogin {
+    font-size: 5vh;
+  }

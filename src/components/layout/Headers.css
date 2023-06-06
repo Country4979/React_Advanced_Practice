@@ -1,0 +1,20 @@
+header h1{
+    font-family: var(--font-base);
+    font-size: 6rem;
+    color: var(--color);
+}
+.headerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 25px;
+}
+.headerText {
+    grid-column: 1 / 4;
+    grid-row: 1;
+}
+.headerImg {
+    background-color: azure;
+    grid-column: 5 / 6;
+    grid-row: 1;
+}

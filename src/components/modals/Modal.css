@@ -1,0 +1,73 @@
+.modal {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    color: var(--color)
+}
+
+.modal.is-open {
+    display: flex;
+}
+
+.modal-container {
+    position: relative;
+    padding: 5px;
+    border-radius: 15px;
+    min-width: 320px;
+    max-width: 480px;
+    min-height: 200px;
+    max-height: 600px;
+    overflow-y: auto;
+    background-color: #fff;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1px;
+    right: 1rem;
+    background-color: inherit;
+    border: 0px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.modalLogout{
+    font-size: 3rem;
+    padding-bottom: 5px;
+    font-family: var(--font-base);
+}
+
+.modalH2 {
+    padding-top: 1.2rem;
+    color: var(--color);
+    border: none;
+    margin-bottom: 10px;
+    
+}
+
+.modalH3 {
+    margin-top: 0;
+ font-weight: bold;   
+}
+
+.NavLinkButton {
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 5px 15px;
+
+}
+
+.modalErrorH3 {
+    margin-top: 25px;
+    font-size: 2rem;
+}
+

@@ -1,0 +1,21 @@
+ul {
+  list-style: none;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
+
+hr {
+  border-color: var(--border-color);
+}
+
+/*App por defecto*/
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.App {
+  text-align: center;
+}
