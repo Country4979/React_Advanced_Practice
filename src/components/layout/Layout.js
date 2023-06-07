@@ -1,18 +1,16 @@
-import Headers from "./Headers";
-import Navbar from "./Navbar";
+import Headers from './Headers';
+import Navbar from './Navbar';
 
-const Layout = ({children, ...rest }) => {
+const Layout = ({ children, ...rest }) => {
     return (
         <div>
-            <Headers {...rest}/>
-            <Navbar {...rest}/>
-            <main>
-                {children}
-            </main>
+            <Headers {...rest} />
+            <Navbar {...rest} />
+            <main>{children}</main>
             <hr></hr>
-            <footer>Javier Girón López @ 2023 - React Module</footer>
+            <footer>Javier Girón López @ 2023 - Advanced React Module</footer>
         </div>
-    )
+    );
 };
 
-export default Layout
+export default Layout;

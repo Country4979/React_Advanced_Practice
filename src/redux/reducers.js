@@ -1,19 +1,24 @@
-import { ADVERTS_LOADED, AUTH_LOGIN, AUTH_LOGOUT } from './type';
+import { ADVERTS_LOADED, AUTH_LOGIN, AUTH_LOGOUT } from './types';
 
 export const defaultState = {
     auth: false,
     adverts: [],
 };
 
-export default function reducer(state = defaultState, action) {
+export function auth(state = defaultState.auth, action) {
     switch (action.type) {
         case AUTH_LOGIN:
-            return { ...state, auth: true };
+            return true;
         case AUTH_LOGOUT:
-            return { ...state, auth: false };
-        case ADVERTS_LOADED:
-            return {...state, adverts: action.payload}
+            return false;
         default:
             return state;
     }
+}
+
+export function adverts(state = defaultState.adverts, action ) {
+    if (action.type === ADVERTS_LOADED) {
+        return action.payload
+    }
+    return state
 }

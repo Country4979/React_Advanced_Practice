@@ -1,4 +1,4 @@
-# Practice of the React Fundamentals module, by Javier Girón López.
+# Practice of Advanced React module, by Javier Girón López.
 # Prerequisites
 
 Backend: nodepop-api
