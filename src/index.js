@@ -7,6 +7,7 @@ import storage from './utils/storage';
 import { setAuthorizationHeader } from './api/client';
 
 import configureStore from './redux';
+import { Provider } from 'react-redux';
 
 import { BrowserRouter } from 'react-router-dom';
 
@@ -21,9 +22,11 @@ window.store = store;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <App isInitiallyLogged={!!accessToken} />
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <App isInitiallyLogged={!!accessToken} />
+            </BrowserRouter>
+        </Provider>
     </React.StrictMode>
 );
 
