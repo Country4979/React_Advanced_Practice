@@ -1,6 +1,7 @@
-//import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import {authLogin, authLogout} from '../../redux/actions'
 import Button from '../shared/Button';
 import { login, logout } from './service';
 import CheckBox from './Checbox';
@@ -10,12 +11,12 @@ import '../shared/Buttons.css';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 
-const LoginPage = ({ isLogged, onLogin, onLogout }) => {
+const LoginPage = ({ isLogged }) => {
     const [credentials, setCredentials] = useState({
         email: '',
         password: '',
     });
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -28,6 +29,8 @@ const LoginPage = ({ isLogged, onLogin, onLogout }) => {
     const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] = UseModal(false);
     const location = useLocation();
 
+    const onLogin = () => dispatch(authLogin())
+    const onLogout = () => dispatch(authLogout())
     const handleSubmit = async (event) => {
         event.preventDefault();
 

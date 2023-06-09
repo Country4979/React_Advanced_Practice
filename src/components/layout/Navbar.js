@@ -1,13 +1,15 @@
 import Button from '../shared/Button';
-import { NavLink, Navigate, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import { logout } from '../auth/service';
 import '../shared/vars.css';
 import './Navbar.css';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import {authLogout} from '../../redux/actions'
 
-const Navbar = ({ isLogged, onLogout }) => {
+const Navbar = ({ isLogged }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isOpenModalLogout, openModaleLogout, closeModaleLogout] =
         UseModal(false);
@@ -42,7 +44,8 @@ const Navbar = ({ isLogged, onLogout }) => {
     const handleClick = () => {
         openModaleLogout();
     };
-
+    const dispatch = useDispatch()
+    const onLogout = () => dispatch(authLogout())
     const handleClickLogout = async () => {
         closeModaleLogout();
         try {
@@ -51,7 +54,7 @@ const Navbar = ({ isLogged, onLogout }) => {
             setTimeout(() => {
                 closeModalLogoutSuccess();
                 onLogout();
-            }, 3000);
+            }, 1000);
         } catch (error) {
             setIsLoading(true);
             openModalError();
