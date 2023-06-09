@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {authLogin, authLogout} from '../../redux/actions'
+import { authLogin, authLogout } from '../../redux/actions';
 import Button from '../shared/Button';
 import { login, logout } from './service';
 import CheckBox from './Checbox';
@@ -18,6 +18,7 @@ const LoginPage = ({ isLogged }) => {
     });
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [errorMs, setErrorMs] = useState('');
@@ -26,11 +27,11 @@ const LoginPage = ({ isLogged }) => {
         setError(null);
     };
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
-    const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] = UseModal(false);
-    const location = useLocation();
+    const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] =
+        UseModal(false);
 
-    const onLogin = () => dispatch(authLogin())
-    const onLogout = () => dispatch(authLogout())
+    const onLogin = () => dispatch(authLogin());
+    const onLogout = () => dispatch(authLogout());
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -41,12 +42,13 @@ const LoginPage = ({ isLogged }) => {
             setIsLoading(false);
             //Logged in:
             onLogin();
-            setSuccess(true)
-            console.log(success)
-            openModalSuccess()
+            setSuccess(true);
+            console.log('estado success', success);
+            openModalSuccess();
             // Redirect to pathname
             const to = location.state?.from?.pathname || '/';
-            setTimeout(() => navigate(to), 3000);
+            //setTimeout(() => navigate(to), 500);
+            navigate(to);
         } catch (error) {
             setError(error);
 

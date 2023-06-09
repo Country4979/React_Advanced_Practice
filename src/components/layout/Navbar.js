@@ -8,9 +8,10 @@ import './Navbar.css';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authLogout } from '../../redux/actions';
+import { getIsLogged } from '../../redux/selectors';
 
 const Navbar = () => {
-    const isLogged = useSelector((state) => state.auth);
+    const isLogged = useSelector(getIsLogged);
     const [isLoading, setIsLoading] = useState(true);
     const [isOpenModalLogout, openModaleLogout, closeModaleLogout] =
         UseModal(false);
