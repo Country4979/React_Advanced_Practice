@@ -6,10 +6,11 @@ import { logout } from '../auth/service';
 import '../shared/vars.css';
 import './Navbar.css';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {authLogout} from '../../redux/actions'
+import { useDispatch, useSelector } from 'react-redux';
+import { authLogout } from '../../redux/actions';
 
-const Navbar = ({ isLogged }) => {
+const Navbar = () => {
+    const isLogged = useSelector((state) => state.auth);
     const [isLoading, setIsLoading] = useState(true);
     const [isOpenModalLogout, openModaleLogout, closeModaleLogout] =
         UseModal(false);
@@ -44,8 +45,8 @@ const Navbar = ({ isLogged }) => {
     const handleClick = () => {
         openModaleLogout();
     };
-    const dispatch = useDispatch()
-    const onLogout = () => dispatch(authLogout())
+    const dispatch = useDispatch();
+    const onLogout = () => dispatch(authLogout());
     const handleClickLogout = async () => {
         closeModaleLogout();
         try {
@@ -54,7 +55,7 @@ const Navbar = ({ isLogged }) => {
             setTimeout(() => {
                 closeModalLogoutSuccess();
                 onLogout();
-            }, 1000);
+            }, 500);
         } catch (error) {
             setIsLoading(true);
             openModalError();

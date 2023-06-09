@@ -6,7 +6,6 @@ import AdvertPage from './components/adverts/AdvertPage';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import Layout from './components/layout/Layout';
-import { Suspense } from 'react';
 import RequireAuth from './components/auth/RequireAuth';
 
 function App({ isInitiallyLogged }) {
