@@ -17,44 +17,34 @@ function App({ isInitiallyLogged }) {
 
     const handleLogout = () => {
         setIsLogged(false);
-        
     };
 
     return (
         <div className='App'>
-            <Layout isLogged={isLogged} onLogout={handleLogout} title='AlaPop'>
+            <Layout title='AlaPop'>
                 <Routes>
-                    <Route
-                        path='/login'
-                        element={
-                            <LoginPage
-                                isLogged={isLogged}
-                                onLogout={handleLogout}
-                                onLogin={handleLogin}
-                            />
-                        }
-                    />
+                    <Route path='/login' element={<LoginPage />} />
                     <Route
                         path='/adverts'
                         element={
-                            <RequireAuth isLogged={isLogged}>
-                                <AdvertsPage isLogged={isLogged} />
+                            <RequireAuth>
+                                <AdvertsPage />
                             </RequireAuth>
                         }
                     />
                     <Route
                         path='/adverts/:id'
                         element={
-                            <RequireAuth isLogged={isLogged}>
-                                <AdvertPage isLogged={isLogged} />
+                            <RequireAuth>
+                                <AdvertPage />
                             </RequireAuth>
                         }
                     />
                     <Route
                         path='/adverts/new'
                         element={
-                            <RequireAuth isLogged={isLogged}>
-                                <NewAdvertPage isLogged={isLogged} />
+                            <RequireAuth>
+                                <NewAdvertPage />
                             </RequireAuth>
                         }
                     />
