@@ -8,6 +8,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Advert from './Advert';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdverts } from '../../redux/selectors';
+import { advertsLoaded } from '../../redux/actions';
 
 const EmptyList = ({ dataFiltered }) => {
     return dataFiltered ? (
@@ -28,9 +31,11 @@ const EmptyList = ({ dataFiltered }) => {
 };
 
 const AdvertsPage = (advert) => {
-    const navigate = useNavigate();
+    
     const [isLoading, setIsLoading] = useState(true);
+    
     const [adverts, setAdverts] = useState([]);
+    
     const [query, setQuery] = useState('');
     const [selectedTags, setSelectedTags] = useState({
         lifestyle: false,
@@ -42,44 +47,48 @@ const AdvertsPage = (advert) => {
     const [querySale, setQuerySale] = useState('');
     const [maxPrice, setQueryMaxPrice] = useState(Infinity);
     const [minPrice, setQueryMinPrice] = useState(-Infinity);
-
+    
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
     const [isOpenModalErrorLogin, openModalErrorLogin, closeModalErrorLogin] =
-        UseModal(false);
-
+    UseModal(false);
+    
     /*FILTER BY SALE --> NO FUNCIONA */
     const handleChangeSale = (event) => {
         setQuerySale(event.target.value);
         console.log(event.target.value);
     };
-
+    
     let filteredAdverts = adverts.filter((advert) =>
-        advert.name.toUpperCase().startsWith(query.toLocaleUpperCase())
+    advert.name.toUpperCase().startsWith(query.toLocaleUpperCase())
     );
-
+    
     /*FILTER BY PRICE*/
     if ((minPrice || maxPrice) && Number(minPrice) < Number(maxPrice)) {
         filteredAdverts = filteredAdverts.filter(
             (advert) => advert.price >= minPrice && advert.price <= maxPrice
-        );
-    }
-    /* -- */
-    /*FILTER BY SALE --> NO FUNCIONA */
-    /*.filter( advert => {
-        if (querySale === "") {
-          return true;
+            );
         }
-        return advert.sale ? querySale === "true" : querySale === "false";
-      })*/
+        /* -- */
+        /*FILTER BY SALE --> NO FUNCIONA */
+        /*.filter( advert => {
+            if (querySale === "") {
+                return true;
+            }
+            return advert.sale ? querySale === "true" : querySale === "false";
+        })*/
+        const navigate = useNavigate();
+        const dispatch = useDispatch();
+        const advs = useSelector(getAdverts)
+        const onAdvertsLoaded = ads => dispatch(advertsLoaded(adverts))
 
-    useEffect(() => {
-        setIsLoading(true);
-        getLastAdv()
+        useEffect(() => {
+            setIsLoading(true);
+            getLastAdv()
             .then((adverts) => {
                 filteredAdverts === 0
                     ? setDataFiltered(true)
                     : setDataFiltered(false);
-                setAdverts(adverts);
+                onAdvertsLoaded(advs)
                 
             })
             .catch((error) => {
