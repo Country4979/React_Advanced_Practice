@@ -31,9 +31,13 @@ const EmptyList = ({ dataFiltered }) => {
 };
 
 const AdvertsPage = (advert) => {
-    const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
-    const [adverts, setAdverts] = useState([]);
+    const dispatch = useDispatch();
+    const adverts = useSelector(getAdverts);
+
+    const onAdvertsLoaded = (adverts) => dispatch(advertsLoaded(adverts));
+    const [isLoading, setIsLoading] = useState(true);
 
     const [query, setQuery] = useState('');
     const [selectedTags, setSelectedTags] = useState({
@@ -75,10 +79,6 @@ const AdvertsPage = (advert) => {
             }
             return advert.sale ? querySale === "true" : querySale === "false";
         })*/
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const advs = useSelector(getAdverts);
-    const onAdvertsLoaded = (ads) => dispatch(advertsLoaded(adverts));
 
     useEffect(() => {
         setIsLoading(true);
@@ -87,14 +87,13 @@ const AdvertsPage = (advert) => {
                 filteredAdverts === 0
                     ? setDataFiltered(true)
                     : setDataFiltered(false);
-                onAdvertsLoaded(advs);
-                //setAdverts(adverts);
+                onAdvertsLoaded(adverts);
             })
             .catch((error) => {
                 if (error.status === 401) {
                     setIsLoading(false);
                     openModalErrorLogin();
-                    setTimeout(() => navigate('/login'), 4000);
+                    setTimeout(() => navigate('/login'), 500);
                 } else {
                     setIsLoading(false);
                     openModalError();
@@ -102,6 +101,30 @@ const AdvertsPage = (advert) => {
             })
             .finally(() => setIsLoading(false));
     }, []);
+
+    /*useEffect(() => {
+        async function fetchData() {
+            try {
+                setIsLoading(true);
+
+                const advs = await getLastAdv();
+
+                onAdvertsLoaded(advs);
+            } catch (error) {
+                if (error.status === 401) {
+                    setIsLoading(false);
+                    openModalErrorLogin();
+                    setTimeout(() => navigate('/login'), 500);
+                } else {
+                    setIsLoading(false);
+                    openModalError();
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchData();
+    }, []);*/
 
     return (
         <>
