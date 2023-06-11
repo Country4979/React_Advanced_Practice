@@ -2,11 +2,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    authLogin,
     authLoginFailure,
     authLoginRequest,
     authLoginSuccess,
     authLogout,
-    uiResetError,
 } from '../../redux/actions';
 import Button from '../shared/Button';
 import { login, logout } from './service';
@@ -22,6 +22,7 @@ const LoginPage = ({ isLogged }) => {
     const [credentials, setCredentials] = useState({
         email: '',
         password: '',
+        rememberMe: true,
     });
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -41,25 +42,20 @@ const LoginPage = ({ isLogged }) => {
         event.preventDefault();
 
         dispatch(authLoginRequest());
-        try {
-            await login(credentials, checked);
 
-            //Logged in:
-            onLogin();
-            setSuccess(true);
-            console.log('estado success', success);
-            openModalSuccess();
-            // Redirect to pathname
-            const to = location.state?.from?.pathname || '/';
-            //setTimeout(() => navigate(to), 500);
-            navigate(to);
-        } catch (error) {
-            dispatch(authLoginFailure(error));
-            error.message === 'Network Error'
-                ? setErrorMs('An error occurred while logging in')
-                : setErrorMs('Incorrect username or password');
-            openModalError();
-        }
+        await dispatch(authLogin(credentials, checked))
+            .then(() => {
+                // Redirect to pathname
+                const to = location.state?.from?.pathname || '/';
+                //setTimeout(() => navigate(to), 500);
+                navigate(to);
+            })
+            .catch((error) => {
+                error.message === 'Network Error'
+                    ? setErrorMs('An error occurred while logging in')
+                    : setErrorMs('Incorrect username or password');
+                openModalError();
+            });
     };
 
     const handleChange = (event) => {
@@ -150,7 +146,7 @@ const LoginPage = ({ isLogged }) => {
                         <br />
                         <CheckBox
                             name='rememberLogin'
-                            cheked={checked}
+                            cheked={credentials.rememberMe}
                             setChecked={handleClickCheckBox}
                         />
                     </form>

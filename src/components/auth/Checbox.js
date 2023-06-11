@@ -1,15 +1,15 @@
-const CheckBox = ({ name, checked, setChecked}) => {
-
+const CheckBox = ({ name, checked, handleChange }) => {
     return (
         <>
-            <label htmlFor="rememberLogin">Remember login?</label>
+            <label htmlFor='rememberLogin'>Remember login?</label>
             <input
-                name={ name }
-                type="checkbox"
+                type='checkbox'
+                name={name}
                 checked={checked}
-                onChange={setChecked}/>
+                onChange={handleChange}
+            />
         </>
     );
 };
 
-export default CheckBox
+export default CheckBox;

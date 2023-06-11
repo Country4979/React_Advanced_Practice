@@ -1,3 +1,4 @@
+import { login } from '../components/auth/service';
 import {
     ADVERTS_LOADED,
     AUTH_LOGIN_FAILURE,
@@ -6,6 +7,19 @@ import {
     AUTH_LOGOUT,
     UI_RESET_ERROR,
 } from './types';
+//import { useChecked } from './useChecked'; //MEJORAR
+
+export const authLogin = (credentials) => async (dispatch) => {
+    dispatch(authLoginRequest());
+    try {
+        await login(credentials);
+        //Logged in:
+        dispatch(authLoginSuccess());
+    } catch (error) {
+        dispatch(authLoginFailure(error))
+        throw error;
+    }
+};
 
 export const authLoginRequest = () => ({
     type: AUTH_LOGIN_REQUEST,
