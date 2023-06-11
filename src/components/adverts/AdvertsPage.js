@@ -102,30 +102,6 @@ const AdvertsPage = (advert) => {
             .finally(() => setIsLoading(false));
     }, []);
 
-    /*useEffect(() => {
-        async function fetchData() {
-            try {
-                setIsLoading(true);
-
-                const advs = await getLastAdv();
-
-                onAdvertsLoaded(advs);
-            } catch (error) {
-                if (error.status === 401) {
-                    setIsLoading(false);
-                    openModalErrorLogin();
-                    setTimeout(() => navigate('/login'), 500);
-                } else {
-                    setIsLoading(false);
-                    openModalError();
-                }
-            } finally {
-                setIsLoading(false);
-            }
-        }
-        fetchData();
-    }, []);*/
-
     return (
         <>
             <Modal

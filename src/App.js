@@ -4,20 +4,12 @@ import NewAdvertPage from './components/adverts/NewAdvertPage';
 import AdvertsPage from './components/adverts/AdvertsPage';
 import AdvertPage from './components/adverts/AdvertPage';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { useState } from 'react';
 import Layout from './components/layout/Layout';
 import RequireAuth from './components/auth/RequireAuth';
+import { useSelector } from 'react-redux';
 
-function App({ isInitiallyLogged }) {
-    const [isLogged, setIsLogged] = useState(isInitiallyLogged);
-
-    const handleLogin = () => {
-        setIsLogged(true);
-    };
-
-    const handleLogout = () => {
-        setIsLogged(false);
-    };
+function App() {
+    const isLogged = useSelector((state) => state.auth);
 
     return (
         <div className='App'>
@@ -43,8 +35,8 @@ function App({ isInitiallyLogged }) {
                     <Route
                         path='/adverts/new'
                         element={
-                            <RequireAuth isLogged={isLogged}>
-                                <NewAdvertPage isLogged={isLogged} />
+                            <RequireAuth>
+                                <NewAdvertPage />
                             </RequireAuth>
                         }
                     />

@@ -6,8 +6,10 @@ import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import './NewAdvertPage.css';
 import Layout from '../layout/Layout';
+import { useSelector } from 'react-redux';
 
-const NewAdvertPage = ({ isLogged }) => {
+const NewAdvertPage = () => {
+    const isLogged = useSelector(state => state.auth)
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
