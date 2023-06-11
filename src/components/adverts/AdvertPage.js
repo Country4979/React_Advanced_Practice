@@ -8,15 +8,18 @@ import Modal from '../modals/Modal';
 import '../shared/loading.css';
 import './AdvertPage.css';
 import { useSelector } from 'react-redux';
-import { getIsLogged } from '../../redux/selectors';
+import { getAdvertById, getIsLogged } from '../../redux/selectors';
+//import { getIsLogged } from '../../redux/selectors';
 
 const AdvertPage = () => {
-    const isLogged = useSelector(getIsLogged);
-    const params = useParams();
     const navigate = useNavigate();
+    //const isLogged = useSelector(getIsLogged);
+    const { id } = useParams();
+    const advert = useSelector(getAdvertById(id));
+
     const [isLoading, setIsLoading] = useState(true);
-    const [advert, setAdvert] = useState([]);
-    const [errors, setErrors] = useState(null);
+
+    const [error, setError] = useState(null);
 
     //--MODAL WINDOWS
     const [isOpenModal1, openModal1, closeModal1] = UseModal(false);
@@ -46,15 +49,25 @@ const AdvertPage = () => {
     //----
 
     const handleDelete = () => {
-        deleteAdvert(params.id).then(() => {
+        console.log('Esto es handle delete');
+        /*deleteAdvert(params.id).then(() => {
             openModals3();
             setTimeout(() => {
                 navigate('/adverts');
-            }, 4000);
-        });
+            }, 500);
+        });*/
     };
-
     useEffect(() => {
+        if (!advert) {
+            return navigate('/404');
+        }
+        setIsLoading(false);
+        setError(error);
+    }, [advert, error, navigate]);
+    /*useEffect(() => {
+       if (!advert) {
+          return navigate("/404");
+        }
         getAdvert(params.id)
             .then((advert) => {
                 setIsLoading(true);
@@ -68,13 +81,13 @@ const AdvertPage = () => {
                 } else {
                     /*else if (error && error.response.data.statusCode === 404) {
                     return navigate('/404');
-                }*/
+                }
                     setIsLoading(false);
                     openModalError();
                 }
             })
             .finally(() => setIsLoading(false));
-    }, [params.id, navigate]);
+    }, [params.id, navigate]);*/
 
     return (
         <>
@@ -174,7 +187,7 @@ const AdvertPage = () => {
                         id='deleteAdd'
                         className='buttons deleteButton'
                         onClick={openModal1}
-                        disabled={errors}
+                        disabled={error}
                     >
                         Delete Adv
                     </Button>
