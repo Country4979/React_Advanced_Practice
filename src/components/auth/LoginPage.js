@@ -1,7 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLoginFailure, authLoginRequest, authLoginSuccess, authLogout, uiResetError } from '../../redux/actions';
+import {
+    authLoginFailure,
+    authLoginRequest,
+    authLoginSuccess,
+    authLogout,
+    uiResetError,
+} from '../../redux/actions';
 import Button from '../shared/Button';
 import { login, logout } from './service';
 import CheckBox from './Checbox';
@@ -20,13 +26,11 @@ const LoginPage = ({ isLogged }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const {isLoading, error} = useSelector(getUi)
+    const { isLoading, error } = useSelector(getUi);
 
     const [errorMs, setErrorMs] = useState('');
     const [success, setSuccess] = useState(false);
-    const resetError = () => {
-       dispatch(uiResetError())
-    };
+
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
     const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] =
         UseModal(false);
@@ -36,8 +40,7 @@ const LoginPage = ({ isLogged }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        resetError();
-        dispatch(authLoginRequest())
+        dispatch(authLoginRequest());
         try {
             await login(credentials, checked);
 
@@ -51,8 +54,7 @@ const LoginPage = ({ isLogged }) => {
             //setTimeout(() => navigate(to), 500);
             navigate(to);
         } catch (error) {
-            dispatch(authLoginFailure(error))
-
+            dispatch(authLoginFailure(error));
             error.message === 'Network Error'
                 ? setErrorMs('An error occurred while logging in')
                 : setErrorMs('Incorrect username or password');
