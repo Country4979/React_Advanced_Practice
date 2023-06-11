@@ -7,9 +7,10 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import RequireAuth from './components/auth/RequireAuth';
 import { useSelector } from 'react-redux';
+import { getIsLogged } from './redux/selectors';
 
 function App() {
-    const isLogged = useSelector((state) => state.auth);
+    const isLogged = useSelector(getIsLogged);
 
     return (
         <div className='App'>

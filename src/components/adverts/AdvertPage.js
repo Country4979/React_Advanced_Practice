@@ -7,8 +7,11 @@ import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import '../shared/loading.css';
 import './AdvertPage.css';
+import { useSelector } from 'react-redux';
+import { getIsLogged } from '../../redux/selectors';
 
-const AdvertPage = ( {isLogged} ) => {
+const AdvertPage = () => {
+    const isLogged = useSelector(getIsLogged);
     const params = useParams();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +53,7 @@ const AdvertPage = ( {isLogged} ) => {
             }, 4000);
         });
     };
-    let isDisabled = isLogged
+
     useEffect(() => {
         getAdvert(params.id)
             .then((advert) => {
@@ -58,14 +61,14 @@ const AdvertPage = ( {isLogged} ) => {
                 setAdvert(advert);
             })
             .catch((error) => {
-                setErrors(true)
-                if (error){
+                setErrors(true);
+                if (error) {
                     setIsLoading(false);
                     openModalError();
-                }
-                /*else if (error && error.response.data.statusCode === 404) {
+                } else {
+                    /*else if (error && error.response.data.statusCode === 404) {
                     return navigate('/404');
-                }*/ else {
+                }*/
                     setIsLoading(false);
                     openModalError();
                 }
