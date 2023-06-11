@@ -2,7 +2,6 @@ import '../shared/loading.css';
 import '../shared/spinner.css';
 import './AdvertsPage.css';
 import { useEffect, useState } from 'react';
-import { getLastAdv } from './service';
 import Button from '../shared/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import Advert from './Advert';
@@ -30,14 +29,13 @@ const EmptyList = ({ dataFiltered }) => {
     );
 };
 
-const AdvertsPage = (advert) => {
+const AdvertsPage = ({ isLoading }) => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
     const adverts = useSelector(getAdverts);
 
     const onAdvertsLoaded = (adverts) => dispatch(advertsLoaded(adverts));
-    const [isLoading, setIsLoading] = useState(true);
 
     const [query, setQuery] = useState('');
     const [selectedTags, setSelectedTags] = useState({
@@ -81,8 +79,7 @@ const AdvertsPage = (advert) => {
         })*/
 
     useEffect(() => {
-        setIsLoading(true);
-        getLastAdv()
+        dispatch(advertsLoaded())
             .then((adverts) => {
                 filteredAdverts === 0
                     ? setDataFiltered(true)
@@ -91,16 +88,13 @@ const AdvertsPage = (advert) => {
             })
             .catch((error) => {
                 if (error.status === 401) {
-                    setIsLoading(false);
                     openModalErrorLogin();
                     setTimeout(() => navigate('/login'), 500);
                 } else {
-                    setIsLoading(false);
                     openModalError();
                 }
-            })
-            .finally(() => setIsLoading(false));
-    }, []);
+            });
+    }, [dispatch, filteredAdverts, navigate, onAdvertsLoaded, openModalError, openModalErrorLogin]);
 
     return (
         <>

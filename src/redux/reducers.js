@@ -1,7 +1,5 @@
 import {
-    ADVERTS_LOADED,
-    AUTH_LOGIN_FAILURE,
-    AUTH_LOGIN_REQUEST,
+    ADVERTS_LOADED_SUCCESS,
     AUTH_LOGIN_SUCCESS,
     AUTH_LOGOUT,
     UI_RESET_ERROR,
@@ -28,7 +26,7 @@ export function auth(state = defaultState.auth, action) {
 }
 
 export function adverts(state = defaultState.adverts, action) {
-    if (action.type === ADVERTS_LOADED) {
+    if (action.type === ADVERTS_LOADED_SUCCESS) {
         return action.payload;
     }
     return state;
