@@ -9,7 +9,6 @@ import '../shared/loading.css';
 import './AdvertPage.css';
 import { useSelector } from 'react-redux';
 import { getAdvertById, getIsLogged } from '../../redux/selectors';
-//import { getIsLogged } from '../../redux/selectors';
 
 const AdvertPage = () => {
     const navigate = useNavigate();

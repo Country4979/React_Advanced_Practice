@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { authLogin, authLogout } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { authLoginFailure, authLoginRequest, authLoginSuccess, authLogout, uiResetError } from '../../redux/actions';
 import Button from '../shared/Button';
 import { login, logout } from './service';
 import CheckBox from './Checbox';
@@ -10,6 +10,7 @@ import './LoginPage.css';
 import '../shared/Buttons.css';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
+import { getUi } from '../../redux/selectors';
 
 const LoginPage = ({ isLogged }) => {
     const [credentials, setCredentials] = useState({
@@ -19,27 +20,27 @@ const LoginPage = ({ isLogged }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const {isLoading, error} = useSelector(getUi)
+
     const [errorMs, setErrorMs] = useState('');
     const [success, setSuccess] = useState(false);
     const resetError = () => {
-        setError(null);
+       dispatch(uiResetError())
     };
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
     const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] =
         UseModal(false);
 
-    const onLogin = () => dispatch(authLogin());
+    const onLogin = () => dispatch(authLoginSuccess());
     const onLogout = () => dispatch(authLogout());
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         resetError();
-        setIsLoading(true);
+        dispatch(authLoginRequest())
         try {
             await login(credentials, checked);
-            setIsLoading(false);
+
             //Logged in:
             onLogin();
             setSuccess(true);
@@ -50,14 +51,12 @@ const LoginPage = ({ isLogged }) => {
             //setTimeout(() => navigate(to), 500);
             navigate(to);
         } catch (error) {
-            setError(error);
+            dispatch(authLoginFailure(error))
 
             error.message === 'Network Error'
                 ? setErrorMs('An error occurred while logging in')
                 : setErrorMs('Incorrect username or password');
             openModalError();
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -76,7 +75,7 @@ const LoginPage = ({ isLogged }) => {
     const [checked, handleClickCheckBox] = useChecked(false);
 
     const buttonDisabled =
-        !credentials.email || !credentials.password || isLogged;
+        isLoading || !credentials.email || !credentials.password || isLogged;
     const logoutButtonDisabbled = isLogged;
 
     return (
