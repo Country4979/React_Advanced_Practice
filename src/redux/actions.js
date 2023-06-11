@@ -7,9 +7,13 @@ import {
     AUTH_LOGIN_FAILURE,
     AUTH_LOGIN_REQUEST,
     AUTH_LOGIN_SUCCESS,
+    ADVERT_LOADED_REQUEST,
+    ADVERT_LOADED_SUCCESS,
+    ADVERT_LOADED_FAILURE,
     AUTH_LOGOUT,
     UI_RESET_ERROR,
 } from './types';
+import { areAdvertsLoaded } from './selectors';
 
 // LOGIN actions & thunk:
 export const authLogin = (credentials) => async (dispatch) => {
@@ -49,6 +53,10 @@ export const authLogout = () => ({
 // ADVERTS thunk & actions:
 
 export const advertsLoaded = () => async (dispatch, getState) => {
+    if(areAdvertsLoaded(getState())){
+        return
+    }
+    
     dispatch(advertsLoadedRequest());
     try {
         const adverts = await getLastAdv();
@@ -70,6 +78,33 @@ export const advertsLoadedSuccess = (adverts) => ({
 
 export const advertsLoadedFailure = (error) => ({
     type: ADVERTS_LOADED_FAILURE,
+    error: true,
+    payload: error,
+});
+
+// ADVERT DETAIL thunk & actions:
+export const advertLoaded = () => async (dispatch, getState) => {
+    dispatch(advertsLoadedRequest());
+    try {
+        const adverts = await getLastAdv();
+        dispatch(advertsLoadedSuccess(adverts));
+    } catch (error) {
+        dispatch(advertsLoadedFailure(error));
+        throw error;
+    }
+};
+
+export const advertLoadedRequest = () => ({
+    type: ADVERT_LOADED_REQUEST,
+});
+
+export const advertLoadedSuccess = (adverts) => ({
+    type: ADVERT_LOADED_SUCCESS,
+    payload: adverts,
+});
+
+export const advertLoadedFailure = (error) => ({
+    type: ADVERT_LOADED_FAILURE,
     error: true,
     payload: error,
 });

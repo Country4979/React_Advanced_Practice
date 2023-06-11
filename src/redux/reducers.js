@@ -7,7 +7,10 @@ import {
 
 export const defaultState = {
     auth: false,
-    adverts: [],
+    adverts: {
+        areLoaded: false,
+        data: [],
+    },
     ui: {
         isLoading: false,
         error: null,
@@ -27,7 +30,7 @@ export function auth(state = defaultState.auth, action) {
 
 export function adverts(state = defaultState.adverts, action) {
     if (action.type === ADVERTS_LOADED_SUCCESS) {
-        return action.payload;
+        return { areLoaded: true, data: action.payload };
     }
     return state;
 }
