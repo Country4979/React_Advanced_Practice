@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from '../shared/Button';
 import { useEffect } from 'react';
-import { deleteAdvert, getAdvert } from './service';
 import Advert from './Advert';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
@@ -9,11 +8,11 @@ import '../shared/loading.css';
 import './AdvertPage.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdvertById, getUi } from '../../redux/selectors';
-import { advertLoad, advertLoaded } from '../../redux/actions';
+import { advertLoad, deletedAdvert } from '../../redux/actions';
 
 const AdvertPage = () => {
     const navigate = useNavigate();
-    //const isLogged = useSelector(getIsLogged);
+
     const { id } = useParams();
     const advert = useSelector(getAdvertById(id));
     const dispatch = useDispatch();
@@ -48,13 +47,13 @@ const AdvertPage = () => {
     //----
 
     const handleDelete = () => {
-        console.log('Esto es handle delete');
-        /*deleteAdvert(params.id).then(() => {
+
+        dispatch(deletedAdvert(id)).
+        then(() => {
             openModals3();
-            setTimeout(() => {
-                navigate('/adverts');
-            }, 500);
-        });*/
+            navigate('/adverts');
+ 
+        });
     };
     useEffect(() => {
         //dispatch(advertLoaded(id)).catch((error) => {

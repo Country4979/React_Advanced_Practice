@@ -6,13 +6,15 @@ import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import './NewAdvertPage.css';
 import Layout from '../layout/Layout';
-import { useSelector } from 'react-redux';
-import { getIsLogged } from '../../redux/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIsLogged, getUi } from '../../redux/selectors';
 
 const NewAdvertPage = () => {
-    const isLogged = useSelector(getIsLogged)
+    const isLogged = useSelector(getIsLogged);
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+    const {isLoading, error} = useSelector(getUi)
+    
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
     const [isOpenModalErrorLogin, openModalErrorLogin, closeModalErrorLogin] =
         UseModal(false);
@@ -20,9 +22,7 @@ const NewAdvertPage = () => {
         UseModal(false);
     const [tagsList, setTagsList] = useState([]);
 
-    const [name, setName] = useState('');
-    const [sale, setSale] = useState(true);
-    const [price, setPrice] = useState('');
+  
     const [tags, setTags] = useState([]);
 
     const [data, setData] = useState({
@@ -32,8 +32,7 @@ const NewAdvertPage = () => {
     });
 
     const handleReset = () => {
-        setPrice('');
-        setName('');
+   
     };
     const handleChangeName = (event) => {
         const nameCharacter = event.target.value;

@@ -1,9 +1,12 @@
 import {
     ADVERTS_LOADED_SUCCESS,
     ADVERT_LOADED_SUCCESS,
+    ADVERT_CREATED_SUCCESS,
+    ADVERT_DELETED_SUCCESS,
     AUTH_LOGIN_SUCCESS,
     AUTH_LOGOUT,
     UI_RESET_ERROR,
+    ADD_TAGS_SUCCESS,
 } from './types';
 
 export const defaultState = {
@@ -12,6 +15,7 @@ export const defaultState = {
         areLoaded: false,
         data: [],
     },
+    tags: [],
     ui: {
         isLoading: false,
         error: null,
@@ -34,8 +38,16 @@ export function adverts(state = defaultState.adverts, action) {
         return { areLoaded: true, data: action.payload };
     }
     if (action.type === ADVERT_LOADED_SUCCESS) {
-        return {...state, data: [action.payload]}
+        return { ...state, data: [action.payload] };
     }
+    if (action.type === ADVERT_CREATED_SUCCESS) {
+        return { ...state, data: [action.payload, ...state.data] };
+    }
+    if (action.type === ADVERT_DELETED_SUCCESS)
+        return {
+            ...state,
+            data: [state.data.filter((advert) => advert.id !== action.payload)],
+        };
     return state;
 }
 
@@ -56,5 +68,12 @@ export function ui(state = defaultState.ui, action) {
         return { ...state, error: null };
     }
 
+    return state;
+}
+
+export function tagsList(state = defaultState.tags, action) {
+    if (action.type === ADD_TAGS_SUCCESS) {
+        return action.payload;
+    }
     return state;
 }

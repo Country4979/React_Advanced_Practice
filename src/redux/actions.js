@@ -8,7 +8,16 @@ import {
     ADVERT_LOADED_REQUEST,
     ADVERT_LOADED_SUCCESS,
     ADVERT_LOADED_FAILURE,
+    ADVERT_CREATED_REQUEST,
+    ADVERT_CREATED_SUCCESS,
+    ADVERT_CREATED_FAILURE,
+    ADVERT_DELETED_REQUEST,
+    ADVERT_DELETED_SUCCESS,
+    ADVERT_DELETED_FAILURE,
     AUTH_LOGOUT,
+    ADD_TAGS_REQUEST,
+    ADD_TAGS_SUCCESS,
+    ADD_TAGS_FAILURE,
     UI_RESET_ERROR,
 } from './types';
 import { areAdvertsLoaded, getAdvertById } from './selectors';
@@ -85,18 +94,6 @@ export const advertsLoadedFailure = (error) => ({
 });
 
 // ADVERT DETAIL thunk & actions:
-export const advertLoaded =
-    () =>
-    async (dispatch, getState, { advs }) => {
-        dispatch(advertsLoadedRequest());
-        try {
-            const adverts = await advs.getLastAdv();
-            dispatch(advertsLoadedSuccess(adverts));
-        } catch (error) {
-            dispatch(advertsLoadedFailure(error));
-            throw error;
-        }
-    };
 
 export const advertLoadedRequest = () => ({
     type: ADVERT_LOADED_REQUEST,
@@ -130,3 +127,87 @@ export const advertLoad =
             throw error;
         }
     };
+
+//ADD TAGS thunk & actions:
+export const getTagsListed = () => async (dispatch, _getState, {advs}) => {
+    dispatch(tagListRequire());
+    try {
+        const tags = await advs.getTagList();
+        dispatch(tagListSuccess(tags));
+        console.log('tags: ', tags)
+    } catch (error) {
+        dispatch(tagListFailure(error));
+        throw error;
+    }
+};
+
+export const tagListRequire = () => ({
+    type: ADD_TAGS_REQUEST,
+});
+
+export const tagListSuccess = (tags) => ({
+    type: ADD_TAGS_SUCCESS,
+    payload: tags,
+});
+
+export const tagListFailure = (error) => ({
+    type: ADD_TAGS_FAILURE,
+    payload: error,
+    error: true,
+});
+
+//CREATE ADVERT thunk & actions:
+export const advertCreatedRequest = () => ({
+    type: ADVERT_CREATED_REQUEST,
+});
+
+export const advertCreatedSuccess = (adverts) => ({
+    type: ADVERT_CREATED_SUCCESS,
+    payload: adverts,
+});
+
+export const advertCreatedFailure = (error) => ({
+    type: ADVERT_CREATED_FAILURE,
+    error: true,
+    payload: error,
+});
+
+export const advertCreate = (advert) => async (dispatch, _getState, {advs}) => {
+    dispatch(advertCreatedRequest());
+    try {
+        const createAdv = await advs.createNewAdvert(advert);
+        dispatch(advertCreatedSuccess(createAdv));
+    } catch (error) {
+        advertCreatedFailure(error);
+        throw error;
+    }
+};
+
+//DELETE ADVERT thunk & actions:
+
+export const advertDeletedRequest = () => ({
+    type: ADVERT_DELETED_REQUEST,
+});
+
+export const advertDeletedSuccess = (advertId) => ({
+    type: ADVERT_DELETED_SUCCESS,
+    payload: advertId,
+});
+
+export const advertDeletedFailure = (error) => ({
+    type: ADVERT_DELETED_FAILURE,
+    error: true,
+    payload: error,
+});
+
+export const deletedAdvert = (advertId) => async (dispatch, _getState, {advs}) => {
+    dispatch(advertDeletedRequest());
+    try {
+        await advs.deleteAdvert(advertId);
+        dispatch(advertDeletedSuccess(advertId));
+        //router.navigate('/)
+    } catch (error) {
+        dispatch(advertDeletedFailure(error));
+        throw error;
+    }
+};
