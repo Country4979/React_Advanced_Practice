@@ -1,5 +1,3 @@
-
-import { getLastAdv } from '../components/adverts/service';
 import {
     ADVERTS_LOADED_FAILURE,
     ADVERTS_LOADED_REQUEST,
@@ -16,17 +14,19 @@ import {
 import { areAdvertsLoaded } from './selectors';
 
 // LOGIN actions & thunk:
-export const authLogin = (credentials) => async (dispatch, _getState, {authService: {auth}}) => {
-    dispatch(authLoginRequest());
-    try {
-        await auth.login(credentials);
-        //Logged in:
-        dispatch(authLoginSuccess());
-    } catch (error) {
-        dispatch(authLoginFailure(error));
-        throw error;
-    }
-};
+export const authLogin =
+    (credentials) =>
+    async (dispatch, _getState, { auth }) => {
+        dispatch(authLoginRequest());
+        try {
+            await auth.login(credentials);
+            //Logged in:
+            dispatch(authLoginSuccess());
+        } catch (error) {
+            dispatch(authLoginFailure(error));
+            throw error;
+        }
+    };
 
 export const authLoginRequest = () => ({
     type: AUTH_LOGIN_REQUEST,
@@ -53,14 +53,15 @@ export const authLogout = () => ({
 // ADVERTS thunk & actions:
 
 export const advertsLoaded =
-    () => async (dispatch, getState, extraArgument) => {
+    () =>
+    async (dispatch, getState, { advs }) => {
         if (areAdvertsLoaded(getState())) {
             return;
         }
 
         dispatch(advertsLoadedRequest());
         try {
-            const adverts = await getLastAdv();
+            const adverts = await advs.getLastAdv();
             dispatch(advertsLoadedSuccess(adverts));
         } catch (error) {
             dispatch(advertsLoadedFailure(error));
@@ -84,10 +85,10 @@ export const advertsLoadedFailure = (error) => ({
 });
 
 // ADVERT DETAIL thunk & actions:
-export const advertLoaded = () => async (dispatch, getState) => {
+export const advertLoaded = () => async (dispatch, getState, {advs}) => {
     dispatch(advertsLoadedRequest());
     try {
-        const adverts = await getLastAdv();
+        const adverts = await advs.getLastAdv();
         dispatch(advertsLoadedSuccess(adverts));
     } catch (error) {
         dispatch(advertsLoadedFailure(error));
