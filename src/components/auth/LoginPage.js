@@ -9,9 +9,8 @@ import {
     authLogout,
 } from '../../redux/actions';
 import Button from '../shared/Button';
-import { login, logout } from './service';
-import CheckBox from './Checbox';
-import { useChecked } from './useChecked';
+import { logout } from './service';
+
 import './LoginPage.css';
 import '../shared/Buttons.css';
 import { UseModal } from '../modals/UseModal';
@@ -22,32 +21,31 @@ const LoginPage = ({ isLogged }) => {
     const [credentials, setCredentials] = useState({
         email: '',
         password: '',
-        rememberMe: true,
+        rememberMe: false,
     });
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
+
     const { isLoading, error } = useSelector(getUi);
 
     const [errorMs, setErrorMs] = useState('');
-    const [success, setSuccess] = useState(false);
 
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
     const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] =
         UseModal(false);
 
-    const onLogin = () => dispatch(authLoginSuccess());
     const onLogout = () => dispatch(authLogout());
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         dispatch(authLoginRequest());
 
-        await dispatch(authLogin(credentials, checked))
+        await dispatch(authLogin(credentials))
             .then(() => {
                 // Redirect to pathname
                 const to = location.state?.from?.pathname || '/';
-                //setTimeout(() => navigate(to), 500);
                 navigate(to);
             })
             .catch((error) => {
@@ -59,18 +57,24 @@ const LoginPage = ({ isLogged }) => {
     };
 
     const handleChange = (event) => {
-        setCredentials({
-            ...credentials,
-            [event.target.name]: event.target.value,
-        });
+        const { name, value, type, checked } = event.target;
+        if (type === 'checkbox') {
+            setCredentials((prevCredentials) => ({
+                ...prevCredentials,
+                [name]: checked,
+            }));
+        } else {
+            setCredentials((prevCredentials) => ({
+                ...prevCredentials,
+                [name]: value,
+            }));
+        }
     };
 
     const handleClickLogout = async () => {
         await logout();
         onLogout();
     };
-
-    const [checked, handleClickCheckBox] = useChecked(false);
 
     const buttonDisabled =
         isLoading || !credentials.email || !credentials.password || isLogged;
@@ -144,11 +148,15 @@ const LoginPage = ({ isLogged }) => {
                             Login
                         </Button>
                         <br />
-                        <CheckBox
-                            name='rememberLogin'
-                            cheked={credentials.rememberMe}
-                            setChecked={handleClickCheckBox}
-                        />
+                        <label>
+                            Remember Login?
+                            <input
+                                type='checkbox'
+                                name='rememberMe'
+                                checked={credentials.rememberMe}
+                                onChange={handleChange}
+                            />
+                        </label>
                     </form>
                 </div>
             </div>
