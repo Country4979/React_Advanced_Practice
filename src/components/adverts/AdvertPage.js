@@ -7,18 +7,19 @@ import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import '../shared/loading.css';
 import './AdvertPage.css';
-import { useSelector } from 'react-redux';
-import { getAdvertById, getIsLogged } from '../../redux/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdvertById, getIsLogged, getUi } from '../../redux/selectors';
+import { advertLoad } from '../../redux/actions';
 
 const AdvertPage = () => {
     const navigate = useNavigate();
     //const isLogged = useSelector(getIsLogged);
     const { id } = useParams();
     const advert = useSelector(getAdvertById(id));
+    const dispatch = useDispatch();
+    const { error, isLoading } = useSelector(getUi);
 
-    const [isLoading, setIsLoading] = useState(true);
-
-    const [error, setError] = useState(null);
+    //const [isLoading, setIsLoading] = useState(true);
 
     //--MODAL WINDOWS
     const [isOpenModal1, openModal1, closeModal1] = UseModal(false);
@@ -57,36 +58,12 @@ const AdvertPage = () => {
         });*/
     };
     useEffect(() => {
-        if (!advert) {
-            return navigate('/404');
-        }
-        setIsLoading(false);
-        setError(error);
-    }, [advert, error, navigate]);
-    /*useEffect(() => {
-       if (!advert) {
-          return navigate("/404");
-        }
-        getAdvert(params.id)
-            .then((advert) => {
-                setIsLoading(true);
-                setAdvert(advert);
-            })
-            .catch((error) => {
-                setErrors(true);
-                if (error) {
-                    setIsLoading(false);
-                    openModalError();
-                } else {
-                    /*else if (error && error.response.data.statusCode === 404) {
-                    return navigate('/404');
-                }
-                    setIsLoading(false);
-                    openModalError();
-                }
-            })
-            .finally(() => setIsLoading(false));
-    }, [params.id, navigate]);*/
+        dispatch(advertLoad(id)).catch((error) => {
+            if (error.status === 404) {
+                return navigate('/404');
+            }
+        });
+    }, [dispatch, id, navigate]);
 
     return (
         <>

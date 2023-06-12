@@ -22,7 +22,7 @@ export const createNewAdvert = (advert) => {
     const config = {
         headers: { 'Content-type': 'multipart/form-data'}
     }
-    console.log(advert)
+
     return client.post(url, advert, config);
 };
 
