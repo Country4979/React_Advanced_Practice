@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from '../shared/Button';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { deleteAdvert, getAdvert } from './service';
 import Advert from './Advert';
 import { UseModal } from '../modals/UseModal';
@@ -8,8 +8,8 @@ import Modal from '../modals/Modal';
 import '../shared/loading.css';
 import './AdvertPage.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdvertById, getIsLogged, getUi } from '../../redux/selectors';
-import { advertLoad } from '../../redux/actions';
+import { getAdvertById, getUi } from '../../redux/selectors';
+import { advertLoaded } from '../../redux/actions';
 
 const AdvertPage = () => {
     const navigate = useNavigate();
@@ -19,7 +19,6 @@ const AdvertPage = () => {
     const dispatch = useDispatch();
     const { error, isLoading } = useSelector(getUi);
 
-    //const [isLoading, setIsLoading] = useState(true);
 
     //--MODAL WINDOWS
     const [isOpenModal1, openModal1, closeModal1] = UseModal(false);
@@ -58,7 +57,7 @@ const AdvertPage = () => {
         });*/
     };
     useEffect(() => {
-        dispatch(advertLoad(id)).catch((error) => {
+        dispatch(advertLoaded(id)).catch((error) => {
             if (error.status === 404) {
                 return navigate('/404');
             }

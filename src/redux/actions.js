@@ -12,7 +12,6 @@ import {
     UI_RESET_ERROR,
 } from './types';
 import { areAdvertsLoaded } from './selectors';
-import { getAdvert } from '../components/adverts/service';
 
 // LOGIN actions & thunk:
 export const authLogin =
@@ -113,20 +112,3 @@ export const advertLoadedFailure = (error) => ({
     error: true,
     payload: error,
 });
-
-export const advertLoad =
-    (advertId) =>
-    async (dispatch, getState, { advs }) => {
-        const isLoaded = getAdvert(advertId)(getState());
-        if (isLoaded) {
-            return;
-        }
-        dispatch(advertsLoadedRequest());
-        try {
-            const advert = await advs.getAdvert(advertId);
-            dispatch(advertLoadedSuccess(advert));
-        } catch (error) {
-            dispatch(advertLoadedFailure(error));
-            throw error;
-        }
-    };
