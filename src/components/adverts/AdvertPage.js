@@ -9,7 +9,7 @@ import '../shared/loading.css';
 import './AdvertPage.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdvertById, getUi } from '../../redux/selectors';
-import { advertLoaded } from '../../redux/actions';
+import { advertLoad, advertLoaded } from '../../redux/actions';
 
 const AdvertPage = () => {
     const navigate = useNavigate();
@@ -57,7 +57,8 @@ const AdvertPage = () => {
         });*/
     };
     useEffect(() => {
-        dispatch(advertLoaded(id)).catch((error) => {
+        //dispatch(advertLoaded(id)).catch((error) => {
+        dispatch(advertLoad(id)).catch((error) => {
             if (error.status === 404) {
                 return navigate('/404');
             }
