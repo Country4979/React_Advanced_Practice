@@ -5,7 +5,6 @@ import { createNewAdvert, getTagList } from './service';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import './NewAdvertPage.css';
-import Layout from '../layout/Layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsLogged, getUi } from '../../redux/selectors';
 
@@ -20,6 +19,32 @@ const NewAdvertPage = () => {
         UseModal(false);
     const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] =
         UseModal(false);
+
+        const handleChange = event => {
+            if (event.target.name === "addName") {
+                setData({ ...data, name: event.target.value });
+            }
+            if (event.target.name === "addSelect") {
+                setData({ ...data,  sale: event.target.value });
+            }
+            if (event.target.name === "addPrice") {
+                setData({ ...data,  price: event.target.value });
+            }
+            if (event.target.name === "addPphoto") {
+                setData({ ...data, photo: event.target.files[0] });
+            }
+            if (tags.includes(event.target.name)) {
+                let newAdvDataTags = data.tags;
+                if (event.target.checked === true) {
+                    newAdvDataTags.concat(event.target.name);
+                    setData({ ...data, tags: newAdvDataTags });
+                } else {
+                    newAdvDataTags = data.tags.filter(tag => tag !== event.target.name);
+                    setData({ ...data, tags: newAdvDataTags });
+                }
+            }
+        };
+
     const [tagsList, setTagsList] = useState([]);
 
   
@@ -29,28 +54,15 @@ const NewAdvertPage = () => {
         name: '',
         sale: true,
         price: '',
+        tags:[],
+        photo: null
     });
 
     const handleReset = () => {
-   
+        //setData(...data, data.price: '');
+        //setName('');
     };
-    const handleChangeName = (event) => {
-        const nameCharacter = event.target.value;
-        setName(nameCharacter);
-        setData({ ...data, name: nameCharacter });
-    };
-
-    const handleChangeSale = () => {
-        const sale = document.getElementById('addSelect').value;
-        setData({ ...data, sale: sale });
-        console.log(sale);
-    };
-
-    const handleChangePrice = (event) => {
-        const priceNumber = event.target.value;
-        setPrice(priceNumber);
-        setData({ ...data, price: priceNumber });
-    };
+    
 
     const handleChangeTags = (event) => {
         //Adds the selected option to an array
@@ -62,14 +74,12 @@ const NewAdvertPage = () => {
         setData({ ...data, tags: selectedTags });
     };
 
-    const handleChangePhoto = (event) => {
-        setData({ ...data, photo: event });
-    };
+   
     const handleSubmit = async (event) => {
         event.preventDefault();
         const datas = new FormData();
         try {
-            setIsLoading(true);
+
             //Add datas to datas State
             datas.append('name', data.name);
             datas.append('sale', data.sale);
@@ -80,18 +90,18 @@ const NewAdvertPage = () => {
             }
             //Send object datas to endpoint
             const advert = await createNewAdvert(datas);
-            setIsLoading(false);
+
             openModalSuccess();
-            setTimeout(() => {
+
                 navigate(`/adverts/${advert.id}`);
-            }, 3000);
+
         } catch (error) {
             if (error.status === 401) {
-                setIsLoading(false);
+
                 openModalErrorLogin();
                 setTimeout(() => navigate('/login'), 4000);
             } else {
-                setIsLoading(false);
+
                 openModalError();
             }
         }
@@ -99,15 +109,15 @@ const NewAdvertPage = () => {
 
     const isDisabled =
         isLoading ||
-        name.length <= 0 ||
-        price.length <= 0 ||
-        sale === undefined ||
+        data.name.length <= 0 ||
+        data.price.length <= 0 ||
+        data.sale === undefined ||
         !data.tags;
 
     useEffect(() => {
-        setIsLoading(true);
+
         getTagList().then((tags) => setTagsList(tags));
-        setIsLoading(false);
+
     }, []);
     return (
         <>
@@ -181,8 +191,8 @@ const NewAdvertPage = () => {
                                         id='addName'
                                         name='addName'
                                         size='25'
-                                        value={name}
-                                        onChange={handleChangeName}
+                                        value={data.name}
+                                        onChange={handleChange}
                                         required
                                     />
                                     <br />
@@ -197,11 +207,7 @@ const NewAdvertPage = () => {
                                         type='file'
                                         id='addPhoto'
                                         name='addPhoto'
-                                        onChange={(event) =>
-                                            handleChangePhoto(
-                                                event.target.files[0]
-                                            )
-                                        }
+                                        onChange={handleChange}
                                     />
                                     <br />
                                     <div className='tags'>
@@ -247,7 +253,7 @@ const NewAdvertPage = () => {
                                     <select
                                         name='addSelect'
                                         id='addSelect'
-                                        onChange={handleChangeSale}
+                                        onChange={handleChange}
                                         required
                                     >
                                         <option value={true}>FOR SALE</option>
@@ -271,8 +277,8 @@ const NewAdvertPage = () => {
                                             minLength='1'
                                             size='5'
                                             placeholder='Price'
-                                            onChange={handleChangePrice}
-                                            value={price}
+                                            onChange={handleChange}
+                                            value={data.price}
                                             required
                                         />{' '}
                                         €
