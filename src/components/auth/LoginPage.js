@@ -1,13 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    authLogin,
-    authLoginFailure,
-    authLoginRequest,
-    authLoginSuccess,
-    authLogout,
-} from '../../redux/actions';
+import { authLogin, authLoginRequest, authLogout } from '../../redux/actions';
 import Button from '../shared/Button';
 import { logout } from './service';
 
@@ -32,7 +26,7 @@ const LoginPage = ({ isLogged }) => {
     const [errorMs, setErrorMs] = useState('');
 
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
-    const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] =
+    const [isOpenModalSuccess, closeModalSuccess] =
         UseModal(false);
 
     const onLogout = () => dispatch(authLogout());
@@ -90,7 +84,7 @@ const LoginPage = ({ isLogged }) => {
                 <h3 className='modalErrorH3'>Successful login!!</h3>
                 <small>You will be re-directed.</small>
             </Modal>
-            <Modal
+            {error && <Modal
                 name='error'
                 isOpen={isOpenModalError}
                 closeModal={closeModalError}
@@ -103,7 +97,7 @@ const LoginPage = ({ isLogged }) => {
                 >
                     Please try again...
                 </Button>
-            </Modal>
+            </Modal>}
             <div className='infoContainer'>
                 <div className='leftSide' id='leftSide'>
                     <h1 id='textLogin'>Already Logged?</h1>

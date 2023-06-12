@@ -8,7 +8,6 @@ export const login = credentials => {
     });
   };
 
-
 export const logout = () => {
     return Promise.resolve().then(() => {
         removeAuthorizationHeader()
