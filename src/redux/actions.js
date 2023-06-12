@@ -1,4 +1,4 @@
-import { login } from '../components/auth/service';
+
 import { getLastAdv } from '../components/adverts/service';
 import {
     ADVERTS_LOADED_FAILURE,
@@ -16,10 +16,10 @@ import {
 import { areAdvertsLoaded } from './selectors';
 
 // LOGIN actions & thunk:
-export const authLogin = (credentials) => async (dispatch) => {
+export const authLogin = (credentials) => async (dispatch, _getState, {authService: {auth}}) => {
     dispatch(authLoginRequest());
     try {
-        await login(credentials);
+        await auth.login(credentials);
         //Logged in:
         dispatch(authLoginSuccess());
     } catch (error) {
@@ -52,20 +52,21 @@ export const authLogout = () => ({
 
 // ADVERTS thunk & actions:
 
-export const advertsLoaded = () => async (dispatch, getState) => {
-    if(areAdvertsLoaded(getState())){
-        return
-    }
-    
-    dispatch(advertsLoadedRequest());
-    try {
-        const adverts = await getLastAdv();
-        dispatch(advertsLoadedSuccess(adverts));
-    } catch (error) {
-        dispatch(advertsLoadedFailure(error));
-        throw error;
-    }
-};
+export const advertsLoaded =
+    () => async (dispatch, getState, extraArgument) => {
+        if (areAdvertsLoaded(getState())) {
+            return;
+        }
+
+        dispatch(advertsLoadedRequest());
+        try {
+            const adverts = await getLastAdv();
+            dispatch(advertsLoadedSuccess(adverts));
+        } catch (error) {
+            dispatch(advertsLoadedFailure(error));
+            throw error;
+        }
+    };
 
 export const advertsLoadedRequest = () => ({
     type: ADVERTS_LOADED_REQUEST,
