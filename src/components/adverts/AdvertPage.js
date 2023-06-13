@@ -104,8 +104,8 @@ const AdvertPage = () => {
                             Are you REALLY sure you want to delete this ad?
                         </h3>
                         <p>
-                            This action will permanently delete your ad!!
-                            <small>You will be redirected to Home page.</small>
+                            This action will permanently delete your ad!!<br/>
+                            <small>~ You will be redirected to Home page. ~</small>
                         </p>
                         <Button
                             onClick={handleDelete}

@@ -49,3 +49,7 @@ img {
 .typeTag p{
     font-weight: bold;
 }
+
+small {
+    font-size: smaller;
+}

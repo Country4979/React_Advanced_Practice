@@ -43,11 +43,21 @@ export function adverts(state = defaultState.adverts, action) {
     if (action.type === ADVERT_CREATED_SUCCESS) {
         return { ...state, data: [action.payload].concat(state.data) };
     }
-    if (action.type === ADVERT_DELETED_SUCCESS)
+    if (action.type === ADVERT_DELETED_SUCCESS) {
+        // Buscamos el índice del anuncio que queremos eliminar
+        const index = state.data.findIndex(
+            (advert) => advert.id === action.payload
+        );
+        // Si encontramos el índice, eliminamos el anuncio del array original utilizando splice
+        if (index !== -1) {
+            state.data.splice(index, 1);
+        }
+        // Creamos una copia del array original y actualizamos la carga de anuncios en el estado
         return {
             ...state,
-            data: [state.data.filter((advert) => advert.id !== action.payload)],
+            data: [...state.data],
         };
+    }
     return state;
 }
 
