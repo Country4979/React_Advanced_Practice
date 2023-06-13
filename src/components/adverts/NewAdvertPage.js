@@ -1,70 +1,74 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../shared/Button';
-import { createNewAdvert, getTagList } from './service';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import './NewAdvertPage.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIsLogged, getUi } from '../../redux/selectors';
+import { getIsLogged, getTags, getUi } from '../../redux/selectors';
+import { advertCreate, getTagsListed } from '../../redux/actions';
 
 const NewAdvertPage = () => {
     const isLogged = useSelector(getIsLogged);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {isLoading, error} = useSelector(getUi)
-    
+    const { isLoading, error } = useSelector(getUi);
+
+    const [data, setData] = useState({
+        name: '',
+        sale: true,
+        price: '',
+        tags: [],
+        photo: null,
+    });
+
+    const tags = [useSelector(getTags)];
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
     const [isOpenModalErrorLogin, openModalErrorLogin, closeModalErrorLogin] =
         UseModal(false);
     const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] =
         UseModal(false);
 
-        const handleChange = event => {
-            if (event.target.name === "addName") {
-                setData({ ...data, name: event.target.value });
+    const handleChange = (event) => {
+        if (event.target.name === 'addName') {
+            setData({ ...data, name: event.target.value });
+        }
+        if (event.target.name === 'addSelect') {
+            setData({ ...data, sale: event.target.value });
+        }
+        if (event.target.name === 'addPrice') {
+            setData({ ...data, price: event.target.value });
+        }
+        if (event.target.name === 'addPphoto') {
+            setData({ ...data, photo: event.target.files[0] });
+        }
+        if (tags.includes(event.target.name)) {
+            let newAdvDataTags = data.tags;
+            if (event.target.checked === true) {
+                newAdvDataTags.concat(event.target.name);
+                setData({ ...data, tags: newAdvDataTags });
+            } else {
+                newAdvDataTags = data.tags.filter(
+                    (tag) => tag !== event.target.name
+                );
+                setData({ ...data, tags: newAdvDataTags });
             }
-            if (event.target.name === "addSelect") {
-                setData({ ...data,  sale: event.target.value });
-            }
-            if (event.target.name === "addPrice") {
-                setData({ ...data,  price: event.target.value });
-            }
-            if (event.target.name === "addPphoto") {
-                setData({ ...data, photo: event.target.files[0] });
-            }
-            if (tags.includes(event.target.name)) {
-                let newAdvDataTags = data.tags;
-                if (event.target.checked === true) {
-                    newAdvDataTags.concat(event.target.name);
-                    setData({ ...data, tags: newAdvDataTags });
-                } else {
-                    newAdvDataTags = data.tags.filter(tag => tag !== event.target.name);
-                    setData({ ...data, tags: newAdvDataTags });
-                }
-            }
-        };
+        }
+    };
 
-    const [tagsList, setTagsList] = useState([]);
+    //const [tagsList, setTagsList] = useState([]);
 
-  
-    const [tags, setTags] = useState([]);
-
-    const [data, setData] = useState({
-        name: '',
-        sale: true,
-        price: '',
-        tags:[],
-        photo: null
-    });
+    //const [tags, setTags] = useState([]);
 
     const handleReset = () => {
-        //setData(...data, data.price: '');
-        //setName('');
+        setData({ ...data, name: '' });
+        setData({ ...data, price: '' });
+        setData({ ...data, photo: null });
+        setData({ ...data, tags: [] });
+        setData({ ...data, sale: '' });
     };
-    
 
-    const handleChangeTags = (event) => {
+    /*const handleChangeTags = (event) => {
         //Adds the selected option to an array
         const selectedTags = Array.from(
             event.target.selectedOptions,
@@ -72,13 +76,22 @@ const NewAdvertPage = () => {
         );
 
         setData({ ...data, tags: selectedTags });
-    };
+    };*/
 
-   
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
-        const datas = new FormData();
+        //const datas = new FormData();
         try {
+            dispatch(advertCreate(data));
+        } catch (error) {
+            if (error.status === 401) {
+                openModalErrorLogin();
+                navigate('/login');
+            } else {
+                openModalError();
+            }
+        }
+        /*try {
 
             //Add datas to datas State
             datas.append('name', data.name);
@@ -93,18 +106,8 @@ const NewAdvertPage = () => {
 
             openModalSuccess();
 
-                navigate(`/adverts/${advert.id}`);
-
-        } catch (error) {
-            if (error.status === 401) {
-
-                openModalErrorLogin();
-                setTimeout(() => navigate('/login'), 4000);
-            } else {
-
-                openModalError();
-            }
-        }
+            //    navigate(`/adverts/${advert.id}`);
+*/
     };
 
     const isDisabled =
@@ -115,9 +118,8 @@ const NewAdvertPage = () => {
         !data.tags;
 
     useEffect(() => {
-
-        getTagList().then((tags) => setTagsList(tags));
-
+        dispatch(getTagsListed());
+        console.log('tags: ', data.tags);
     }, []);
     return (
         <>
@@ -221,12 +223,12 @@ const NewAdvertPage = () => {
                                             id='selectedTags'
                                             multiple
                                             size={5}
-                                            onChange={handleChangeTags}
+                                            onChange={handleChange}
                                         >
                                             <option value=''>
                                                 Select tags:
                                             </option>
-                                            {tagsList.map((tag, index) => {
+                                            {tags.map((tag, index) => {
                                                 return (
                                                     <option
                                                         key={index}

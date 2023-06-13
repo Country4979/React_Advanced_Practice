@@ -41,7 +41,7 @@ export function adverts(state = defaultState.adverts, action) {
         return { ...state, data: [action.payload] };
     }
     if (action.type === ADVERT_CREATED_SUCCESS) {
-        return { ...state, data: [action.payload, ...state.data] };
+        return { ...state, data: [action.payload].concat(state.data) };
     }
     if (action.type === ADVERT_DELETED_SUCCESS)
         return {

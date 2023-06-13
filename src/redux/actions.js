@@ -25,12 +25,15 @@ import { areAdvertsLoaded, getAdvertById } from './selectors';
 // LOGIN actions & thunk:
 export const authLogin =
     (credentials) =>
-    async (dispatch, _getState, { auth }) => {
+    async (dispatch, _getState, { service: { auth }, router }) => {
         dispatch(authLoginRequest());
         try {
             await auth.login(credentials);
             //Logged in:
             dispatch(authLoginSuccess());
+            // Redirect to pathname
+            const to = router.state?.from?.pathname || '/';
+            router.navigate(to);
         } catch (error) {
             dispatch(authLoginFailure(error));
             throw error;
@@ -59,11 +62,19 @@ export const authLogout = () => ({
     type: AUTH_LOGOUT,
 });
 
+export const logout =
+    () =>
+    (dispatch, _getState, { api: { client } }, { router }) => {
+        dispatch(authLogout());
+        client.removeRequestHeaders();
+        router.navigate('/login');
+    };
+
 // ADVERTS thunk & actions:
 
 export const advertsLoaded =
     () =>
-    async (dispatch, getState, { advs }) => {
+    async (dispatch, getState, { service: advs }) => {
         if (areAdvertsLoaded(getState())) {
             return;
         }
@@ -112,7 +123,7 @@ export const advertLoadedFailure = (error) => ({
 
 export const advertLoad =
     (advertId) =>
-    async (dispatch, getState, { advs }) => {
+    async (dispatch, getState, { service: { advs }, router }) => {
         const isLoaded = getAdvertById(advertId)(getState());
         if (isLoaded) {
             return;
@@ -124,22 +135,25 @@ export const advertLoad =
             dispatch(advertLoadedSuccess(advert));
         } catch (error) {
             dispatch(advertLoadedFailure(error));
-            throw error;
+            if (error.status === 404) {
+                return router.navigate('/404');
+            }
         }
     };
 
 //ADD TAGS thunk & actions:
-export const getTagsListed = () => async (dispatch, _getState, {advs}) => {
-    dispatch(tagListRequire());
-    try {
-        const tags = await advs.getTagList();
-        dispatch(tagListSuccess(tags));
-        console.log('tags: ', tags)
-    } catch (error) {
-        dispatch(tagListFailure(error));
-        throw error;
-    }
-};
+export const getTagsListed =
+    () =>
+    async (dispatch, _getState, { service: advs }) => {
+        dispatch(tagListRequire());
+        try {
+            const tags = await advs.getTagList();
+            dispatch(tagListSuccess(tags));
+        } catch (error) {
+            dispatch(tagListFailure(error));
+            throw error;
+        }
+    };
 
 export const tagListRequire = () => ({
     type: ADD_TAGS_REQUEST,
@@ -161,9 +175,9 @@ export const advertCreatedRequest = () => ({
     type: ADVERT_CREATED_REQUEST,
 });
 
-export const advertCreatedSuccess = (adverts) => ({
+export const advertCreatedSuccess = (advert) => ({
     type: ADVERT_CREATED_SUCCESS,
-    payload: adverts,
+    payload: advert,
 });
 
 export const advertCreatedFailure = (error) => ({
@@ -172,16 +186,21 @@ export const advertCreatedFailure = (error) => ({
     payload: error,
 });
 
-export const advertCreate = (advert) => async (dispatch, _getState, {advs}) => {
-    dispatch(advertCreatedRequest());
-    try {
-        const createAdv = await advs.createNewAdvert(advert);
-        dispatch(advertCreatedSuccess(createAdv));
-    } catch (error) {
-        advertCreatedFailure(error);
-        throw error;
-    }
-};
+export const advertCreate =
+    (advert) =>
+    async (dispatch, _getState, { service: { advs }, router }) => {
+        dispatch(advertCreatedRequest());
+        try {
+            const { id } = await advs.createNewAdvert(advert);
+            const createdAdvert = await advs.getAdvert(id);
+            dispatch(advertCreatedSuccess(createdAdvert));
+            router.navigate(`/adverts/${createdAdvert.id}`);
+            return createdAdvert;
+        } catch (error) {
+            advertCreatedFailure(error);
+            throw error;
+        }
+    };
 
 //DELETE ADVERT thunk & actions:
 
@@ -200,14 +219,15 @@ export const advertDeletedFailure = (error) => ({
     payload: error,
 });
 
-export const deletedAdvert = (advertId) => async (dispatch, _getState, {advs}) => {
-    dispatch(advertDeletedRequest());
-    try {
-        await advs.deleteAdvert(advertId);
-        dispatch(advertDeletedSuccess(advertId));
-        //router.navigate('/)
-    } catch (error) {
-        dispatch(advertDeletedFailure(error));
-        throw error;
-    }
-};
+export const deletedAdvert =
+    (advertId) =>
+    async (dispatch, _getState, { service: { advs }, router }) => {
+        dispatch(advertDeletedRequest());
+        try {
+            await advs.deleteAdvert(advertId);
+            dispatch(advertDeletedSuccess(advertId));
+            router.navigate('/');
+        } catch (error) {
+            dispatch(advertDeletedFailure(error));
+        }
+    };

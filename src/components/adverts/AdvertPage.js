@@ -12,17 +12,14 @@ import { advertLoad, deletedAdvert } from '../../redux/actions';
 
 const AdvertPage = () => {
     const navigate = useNavigate();
-
     const { id } = useParams();
     const advert = useSelector(getAdvertById(id));
     const dispatch = useDispatch();
     const { error, isLoading } = useSelector(getUi);
 
-
     //--MODAL WINDOWS
     const [isOpenModal1, openModal1, closeModal1] = UseModal(false);
     const [isOpenModal2, openModal2, closeModal2] = UseModal(false);
-    const [isOpenModal3, openModal3, closeModal3] = UseModal(false);
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
 
     UseModal(false);
@@ -34,35 +31,15 @@ const AdvertPage = () => {
         openModal2();
     };
 
-    const openModals3 = () => {
-        if (isOpenModal2) {
-            closeModal2();
-        }
-        openModal3();
-    };
-
-    const closeModals3 = () => {
-        navigate('/adverts');
-    };
     //----
 
     const handleDelete = () => {
-
-        dispatch(deletedAdvert(id)).
-        then(() => {
-            openModals3();
-            navigate('/adverts');
- 
-        });
+        dispatch(deletedAdvert(id));
     };
     useEffect(() => {
         //dispatch(advertLoaded(id)).catch((error) => {
-        dispatch(advertLoad(id)).catch((error) => {
-            if (error.status === 404) {
-                return navigate('/404');
-            }
-        });
-    }, [dispatch, id, navigate]);
+        dispatch(advertLoad(id));
+    }, [dispatch, id]);
 
     return (
         <>
@@ -126,7 +103,10 @@ const AdvertPage = () => {
                         <h3 className='modalH3'>
                             Are you REALLY sure you want to delete this ad?
                         </h3>
-                        <p>This action will permanently delete your ad!!</p>
+                        <p>
+                            This action will permanently delete your ad!!
+                            <small>You will be redirected to Home page.</small>
+                        </p>
                         <Button
                             onClick={handleDelete}
                             className='buttons deleteButton'
@@ -140,20 +120,7 @@ const AdvertPage = () => {
                             No
                         </Button>
                     </Modal>
-                    <Modal
-                        name='modal3'
-                        isOpen={isOpenModal3}
-                        closeModal={closeModal3}
-                    >
-                        <h2 className='modalH2'>ADVERTISEMENT DELETED</h2>
-                        <h3 className='modalH3'>(I told you...)</h3>
-                        <Button
-                            onClick={closeModals3}
-                            className='buttons noDeleteButton'
-                        >
-                            Ok
-                        </Button>
-                    </Modal>
+
                     <div className='productContainer'>
                         <Advert {...advert} className='product' />
                     </div>

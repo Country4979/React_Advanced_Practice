@@ -1,10 +1,8 @@
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authLogin, authLoginRequest, authLogout } from '../../redux/actions';
 import Button from '../shared/Button';
 import { logout } from './service';
-
 import './LoginPage.css';
 import '../shared/Buttons.css';
 import { UseModal } from '../modals/UseModal';
@@ -18,8 +16,6 @@ const LoginPage = ({ isLogged }) => {
         rememberMe: false,
     });
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const location = useLocation();
 
     const { isLoading, error } = useSelector(getUi);
 
@@ -37,11 +33,6 @@ const LoginPage = ({ isLogged }) => {
         dispatch(authLoginRequest());
 
         await dispatch(authLogin(credentials))
-            .then(() => {
-                // Redirect to pathname
-                const to = location.state?.from?.pathname || '/';
-                navigate(to);
-            })
             .catch((error) => {
                 error.message === 'Network Error'
                     ? setErrorMs('An error occurred while logging in')
