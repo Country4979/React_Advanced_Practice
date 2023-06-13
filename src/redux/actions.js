@@ -74,11 +74,10 @@ export const logout =
 
 export const advertsLoaded =
     () =>
-    async (dispatch, getState, { service: advs }) => {
+    async (dispatch, getState, { service: {advs} }) => {
         if (areAdvertsLoaded(getState())) {
             return;
         }
-
         dispatch(advertsLoadedRequest());
         try {
             const adverts = await advs.getLastAdv();

@@ -53,11 +53,11 @@ const AdvertsPage = ({ isLoading }) => {
     const [isOpenModalErrorLogin, openModalErrorLogin, closeModalErrorLogin] =
         UseModal(false);
 
-    /*FILTER BY SALE --> NO FUNCIONA */
+    /*FILTER BY SALE --> NO FUNCIONA
     const handleChangeSale = (event) => {
         setQuerySale(event.target.value);
         console.log(event.target.value);
-    };
+    };*/
 
     let filteredAdverts = adverts.filter((advert) =>
         advert.name.toUpperCase().startsWith(query.toLocaleUpperCase())
@@ -89,7 +89,7 @@ const AdvertsPage = ({ isLoading }) => {
             .catch((error) => {
                 if (error.status === 401) {
                     openModalErrorLogin();
-                    setTimeout(() => navigate('/login'), 500);
+                    navigate('/login');
                 } else {
                     openModalError();
                 }
