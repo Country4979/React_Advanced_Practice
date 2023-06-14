@@ -9,5 +9,6 @@ export const getUi = (state) => state.ui;
 
 export const areAdvertsLoaded = (state) => state.adverts.areLoaded;
 
-export const getTags = (state) => state.tags;
-
+//export const getTags = (state) => state.tags.data ? state.tags.data : [];
+export const getTags = (state) => state.tagsList.data;
+export const areTagsLoaded = (state) => state.tagsList.areLoaded;

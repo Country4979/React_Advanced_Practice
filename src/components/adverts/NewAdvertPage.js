@@ -228,7 +228,7 @@ const NewAdvertPage = () => {
                                             <option value=''>
                                                 Select tags:
                                             </option>
-                                            {tags.map((tag, index) => {
+                                            {tags[0].map((tag, index) => {
                                                 return (
                                                     <option
                                                         key={index}

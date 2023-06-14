@@ -11,9 +11,22 @@ const reducer = combineReducers(reducers);
 const composeEnhancers = composeWithDevTools({
     actionCreators,
 });
+const failureRedirects = (router, redirectsMap) => () => (next) => (action) => {
+    const result = next(action);
+    if (action.error) {
+        const redirect = redirectsMap[action.payload];
+        if (redirect) {
+            router.navigate(redirect);
+        }
+    }
+    return result;
+};
 
 export default function configureStore(preloadedState, { router }) {
-    const middleware = [thunk.withExtraArgument({ service: {auth, advs}, client, router })];
+    const middleware = [
+        thunk.withExtraArgument({ service: { auth, advs }, client, router }),
+        failureRedirects(router, { 401: '/login', 404: '/404' }),
+    ];
     const store = createStore(
         reducer,
         preloadedState,

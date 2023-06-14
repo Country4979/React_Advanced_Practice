@@ -15,7 +15,10 @@ export const defaultState = {
         areLoaded: false,
         data: [],
     },
-    tags: [],
+    tags: {
+        areLoaded: false,
+        data: [],
+    },
     ui: {
         isLoading: false,
         error: null,
@@ -83,7 +86,9 @@ export function ui(state = defaultState.ui, action) {
 
 export function tagsList(state = defaultState.tags, action) {
     if (action.type === ADD_TAGS_SUCCESS) {
-        return action.payload;
+        console.log('Esto es action.payload del reducer', action.payload);
+        return { areLoaded: true, data: action.payload };
     }
+    console.log('Reducer state: ', state); //No devuelve los tags
     return state;
 }

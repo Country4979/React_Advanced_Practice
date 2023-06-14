@@ -20,7 +20,7 @@ import {
     ADD_TAGS_FAILURE,
     UI_RESET_ERROR,
 } from './types';
-import { areAdvertsLoaded, getAdvertById } from './selectors';
+import { areAdvertsLoaded, areTagsLoaded, getAdvertById } from './selectors';
 
 // LOGIN actions & thunk:
 export const authLogin =
@@ -74,7 +74,7 @@ export const logout =
 
 export const advertsLoaded =
     () =>
-    async (dispatch, getState, { service: {advs} }) => {
+    async (dispatch, getState, { service: { advs } }) => {
         if (areAdvertsLoaded(getState())) {
             return;
         }
@@ -122,7 +122,7 @@ export const advertLoadedFailure = (error) => ({
 
 export const advertLoad =
     (advertId) =>
-    async (dispatch, getState, { service: { advs }, router }) => {
+    async (dispatch, getState, { service: { advs } }) => {
         const isLoaded = getAdvertById(advertId)(getState());
         if (isLoaded) {
             return;
@@ -134,17 +134,17 @@ export const advertLoad =
             dispatch(advertLoadedSuccess(advert));
         } catch (error) {
             dispatch(advertLoadedFailure(error));
-            if (error.status === 404) {
-                return router.navigate('/404');
-            }
         }
     };
 
 //ADD TAGS thunk & actions:
 export const getTagsListed =
     () =>
-    async (dispatch, _getState, { service: advs }) => {
-        dispatch(tagListRequire());
+    async (dispatch, getState, { service: { advs } }) => {
+        /*if (areTagsLoaded(getState())) { //--> ME DA PROBLEMAS DE LECTURA DE STATE.TAGS.ARELOADED
+            return;
+        }*/
+        dispatch(tagListRequest());
         try {
             const tags = await advs.getTagList();
             dispatch(tagListSuccess(tags));
@@ -154,7 +154,7 @@ export const getTagsListed =
         }
     };
 
-export const tagListRequire = () => ({
+export const tagListRequest = () => ({
     type: ADD_TAGS_REQUEST,
 });
 
@@ -190,10 +190,11 @@ export const advertCreate =
     async (dispatch, _getState, { service: { advs }, router }) => {
         dispatch(advertCreatedRequest());
         try {
-            const { id } = await advs.createNewAdvert(advert);
-            const createdAdvert = await advs.getAdvert(id);
+            const createdAdvert = await advs.createNewAdvert(advert); //-> No pasa de aquí
+            console.log('esto es createdAdvert en advertCreate', createdAdvert);
+            //const createdAdvert = await advs.getAdvert(id);
             dispatch(advertCreatedSuccess(createdAdvert));
-            router.navigate(`/adverts/${createdAdvert.id}`);
+            router.navigate(`/adverts/${createdAdvert.id}`); //`/adverts/${id}`
             return createdAdvert;
         } catch (error) {
             advertCreatedFailure(error);
