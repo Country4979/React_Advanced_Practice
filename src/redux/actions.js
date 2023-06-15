@@ -190,11 +190,9 @@ export const advertCreate =
     async (dispatch, _getState, { service: { advs }, router }) => {
         dispatch(advertCreatedRequest());
         try {
-            const createdAdvert = await advs.createNewAdvert(advert); //-> No pasa de aquí
-            console.log('esto es createdAdvert en advertCreate', createdAdvert);
-            //const createdAdvert = await advs.getAdvert(id);
+            const createdAdvert = await advs.createNewAdvert(advert);
             dispatch(advertCreatedSuccess(createdAdvert));
-            router.navigate(`/adverts/${createdAdvert.id}`); //`/adverts/${id}`
+            router.navigate(`/adverts/${createdAdvert.id}`);
             return createdAdvert;
         } catch (error) {
             advertCreatedFailure(error);

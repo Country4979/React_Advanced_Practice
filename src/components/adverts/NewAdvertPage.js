@@ -83,8 +83,7 @@ const NewAdvertPage = () => {
 
     useEffect(() => {
         dispatch(getTagsListed());
-        console.log('tags: ', data.tags);
-    }, []);
+    }, [data.tags, dispatch]);
     return (
         <>
             {isLogged ? (
