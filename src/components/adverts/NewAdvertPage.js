@@ -29,38 +29,29 @@ const NewAdvertPage = () => {
     const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] =
         UseModal(false);
 
-    const handleChange = (event) => {
-        if (event.target.name === 'addName') {
-            setData({ ...data, name: event.target.value });
-        }
-        /*if (event.target.name === 'addSelect') {
-            setData({ ...data, sale: event.target.value });
-        }*/
-        if (event.target.name === 'addSelect') {
-            //Adds the selected option to an array
-            const sale = Array.from(
-                event.target.selectedOptions,
-                (option) => option.value
-            );
-            setData({ ...data, sale: sale });
-        }
-
-        if (event.target.name === 'addPrice') {
-            setData({ ...data, price: event.target.value });
-        }
-        if (event.target.name === 'addPphoto') {
-            setData({ ...data, photo: event.target.files[0] });
-        }
-        if (event.target.name === 'addTags') {
-            //Adds the selected option to an array
-            const selectedTags = Array.from(
-                event.target.selectedOptions,
-                (option) => option.value
-            );
-            console.log('Tags seleccionados: ', selectedTags);
-            setData({ ...data, tags: selectedTags });
-        }
-    };
+        const handleChange = (e) => {
+            const { name, value, type, files, selectedOptions } = e.target;
+            if (type === "file") {
+              // Si el input es de tipo file, se guarda el archivo
+              setData((prevData) => ({
+                ...prevData,
+                [name]: files[0], // Se usa el nombre del input (photo) para actualizar el estado
+              }));
+            } else if (type === "select-multiple") {
+              // Si el input es de tipo select-multiple, se guarda un array con los valores seleccionados
+              const selectedValues = Array.from(selectedOptions, (option) => option.value);
+              setData((prevData) => ({
+                ...prevData,
+                [name]: selectedValues, // Se usa el nombre del input (tags) para actualizar el estado
+              }));
+            } else {
+              // Si no, se guarda el valor del input
+              setData((prevData) => ({
+                ...prevData,
+                [name]: value, // Se usa el nombre del input (name, sale o price) para actualizar el estado
+              }));
+            }
+          };
 
     //const [tagsList, setTagsList] = useState([]);
 
@@ -194,7 +185,7 @@ const NewAdvertPage = () => {
                                     <input
                                         type='text'
                                         id='addName'
-                                        name='addName'
+                                        name='name'
                                         size='25'
                                         value={data.name}
                                         onChange={handleChange}
@@ -211,7 +202,7 @@ const NewAdvertPage = () => {
                                         content-type='multipart/form-data'
                                         type='file'
                                         id='addPhoto'
-                                        name='addPhoto'
+                                        name='photo'
                                         onChange={handleChange}
                                     />
                                     <br />
@@ -224,7 +215,8 @@ const NewAdvertPage = () => {
                                         </label>
                                         <select
                                             id='selectedTags'
-                                            name='addTags'
+                                            name='tags'
+                                            type='select-multiple'
                                             multiple
                                             size={5}
                                             onChange={handleChange}
@@ -257,7 +249,7 @@ const NewAdvertPage = () => {
                                         This article is :
                                     </label>
                                     <select
-                                        name='addSelect'
+                                        name='sale'
                                         id='addSelect'
                                         onChange={handleChange}
                                         required
@@ -279,7 +271,7 @@ const NewAdvertPage = () => {
                                             className='inputPrice'
                                             type='number'
                                             id='addPrice'
-                                            name='addPrice'
+                                            name='price'
                                             minLength='1'
                                             size='5'
                                             placeholder='Price'
