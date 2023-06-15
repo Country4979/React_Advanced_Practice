@@ -44,7 +44,8 @@ export function adverts(state = defaultState.adverts, action) {
         return { ...state, data: [action.payload] };
     }
     if (action.type === ADVERT_CREATED_SUCCESS) {
-        return { ...state, data: [action.payload].concat(state.data) };
+        console.log('Esto es action.payload en actions: ', action.payload);
+        return { ...state, data: [action.payload], ...state.data };
     }
     if (action.type === ADVERT_DELETED_SUCCESS) {
         // Buscamos el índice del anuncio que queremos eliminar
@@ -86,9 +87,7 @@ export function ui(state = defaultState.ui, action) {
 
 export function tagsList(state = defaultState.tags, action) {
     if (action.type === ADD_TAGS_SUCCESS) {
-        console.log('Esto es action.payload del reducer', action.payload);
         return { areLoaded: true, data: action.payload };
     }
-    console.log('Reducer state: ', state); //No devuelve los tags
     return state;
 }

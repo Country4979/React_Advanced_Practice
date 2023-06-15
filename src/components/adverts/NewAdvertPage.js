@@ -61,11 +61,7 @@ const NewAdvertPage = () => {
     //const [tags, setTags] = useState([]);
 
     const handleReset = () => {
-        setData({ ...data, name: '' });
-        setData({ ...data, price: '' });
-        setData({ ...data, photo: null });
-        setData({ ...data, tags: [] });
-        setData({ ...data, sale: '' });
+        setData({ name: '', price: '', photo: null, tags: [], sale: '' });
     };
 
     /*const handleChangeTags = (event) => {
@@ -83,6 +79,7 @@ const NewAdvertPage = () => {
         //const datas = new FormData();
         try {
             dispatch(advertCreate(data));
+            openModalSuccess();
         } catch (error) {
             if (error.status === 401) {
                 openModalErrorLogin();

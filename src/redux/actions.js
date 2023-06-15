@@ -141,9 +141,9 @@ export const advertLoad =
 export const getTagsListed =
     () =>
     async (dispatch, getState, { service: { advs } }) => {
-        /*if (areTagsLoaded(getState())) { //--> ME DA PROBLEMAS DE LECTURA DE STATE.TAGS.ARELOADED
+        if (areTagsLoaded(getState())) {
             return;
-        }*/
+        }
         dispatch(tagListRequest());
         try {
             const tags = await advs.getTagList();
