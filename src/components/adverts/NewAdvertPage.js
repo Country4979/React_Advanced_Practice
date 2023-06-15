@@ -33,26 +33,32 @@ const NewAdvertPage = () => {
         if (event.target.name === 'addName') {
             setData({ ...data, name: event.target.value });
         }
-        if (event.target.name === 'addSelect') {
+        /*if (event.target.name === 'addSelect') {
             setData({ ...data, sale: event.target.value });
+        }*/
+        if (event.target.name === 'addSelect') {
+            //Adds the selected option to an array
+            const sale = Array.from(
+                event.target.selectedOptions,
+                (option) => option.value
+            );
+            setData({ ...data, sale: sale });
         }
+
         if (event.target.name === 'addPrice') {
             setData({ ...data, price: event.target.value });
         }
         if (event.target.name === 'addPphoto') {
             setData({ ...data, photo: event.target.files[0] });
         }
-        if (tags.includes(event.target.name)) {
-            let newAdvDataTags = data.tags;
-            if (event.target.checked === true) {
-                newAdvDataTags.concat(event.target.name);
-                setData({ ...data, tags: newAdvDataTags });
-            } else {
-                newAdvDataTags = data.tags.filter(
-                    (tag) => tag !== event.target.name
-                );
-                setData({ ...data, tags: newAdvDataTags });
-            }
+        if (event.target.name === 'addTags') {
+            //Adds the selected option to an array
+            const selectedTags = Array.from(
+                event.target.selectedOptions,
+                (option) => option.value
+            );
+            console.log('Tags seleccionados: ', selectedTags);
+            setData({ ...data, tags: selectedTags });
         }
     };
 
@@ -218,6 +224,7 @@ const NewAdvertPage = () => {
                                         </label>
                                         <select
                                             id='selectedTags'
+                                            name='addTags'
                                             multiple
                                             size={5}
                                             onChange={handleChange}
