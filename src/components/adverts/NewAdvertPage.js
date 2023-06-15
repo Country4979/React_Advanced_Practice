@@ -29,51 +29,38 @@ const NewAdvertPage = () => {
     const [isOpenModalSuccess, openModalSuccess, closeModalSuccess] =
         UseModal(false);
 
-        const handleChange = (e) => {
-            const { name, value, type, files, selectedOptions } = e.target;
-            if (type === "file") {
-              // Si el input es de tipo file, se guarda el archivo
-              setData((prevData) => ({
+    const handleChange = (e) => {
+        const { name, value, type, files, selectedOptions } = e.target;
+        if (type === 'file') {
+            // If the input is of type file, the file is saved.
+            setData((prevData) => ({
                 ...prevData,
-                [name]: files[0], // Se usa el nombre del input (photo) para actualizar el estado
-              }));
-            } else if (type === "select-multiple") {
-              // Si el input es de tipo select-multiple, se guarda un array con los valores seleccionados
-              const selectedValues = Array.from(selectedOptions, (option) => option.value);
-              setData((prevData) => ({
+                [name]: files[0], // The name of the input (photo) is used to update the status.
+            }));
+        } else if (type === 'select-multiple') {
+            // If the input is of type select-multiple, an array with the selected values is stored.
+            const selectedValues = Array.from(
+                selectedOptions,
+                (option) => option.value
+            );
+            setData((prevData) => ({
                 ...prevData,
-                [name]: selectedValues, // Se usa el nombre del input (tags) para actualizar el estado
-              }));
-            } else {
-              // Si no, se guarda el valor del input
-              setData((prevData) => ({
+                [name]: selectedValues,
+            }));
+        } else {
+            setData((prevData) => ({
                 ...prevData,
-                [name]: value, // Se usa el nombre del input (name, sale o price) para actualizar el estado
-              }));
-            }
-          };
-
-    //const [tagsList, setTagsList] = useState([]);
-
-    //const [tags, setTags] = useState([]);
+                [name]: value, // The name of the input (name, sale or price) is used to update the status.
+            }));
+        }
+    };
 
     const handleReset = () => {
         setData({ name: '', price: '', photo: null, tags: [], sale: '' });
     };
 
-    /*const handleChangeTags = (event) => {
-        //Adds the selected option to an array
-        const selectedTags = Array.from(
-            event.target.selectedOptions,
-            (option) => option.value
-        );
-
-        setData({ ...data, tags: selectedTags });
-    };*/
-
     const handleSubmit = (event) => {
         event.preventDefault();
-        //const datas = new FormData();
         try {
             dispatch(advertCreate(data));
             openModalSuccess();
@@ -85,23 +72,6 @@ const NewAdvertPage = () => {
                 openModalError();
             }
         }
-        /*try {
-
-            //Add datas to datas State
-            datas.append('name', data.name);
-            datas.append('sale', data.sale);
-            datas.append('price', data.price);
-            datas.append('tags', data.tags);
-            if (!!data.photo) {
-                datas.append('photo', data.photo);
-            }
-            //Send object datas to endpoint
-            const advert = await createNewAdvert(datas);
-
-            openModalSuccess();
-
-            //    navigate(`/adverts/${advert.id}`);
-*/
     };
 
     const isDisabled =
