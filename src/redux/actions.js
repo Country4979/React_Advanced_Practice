@@ -19,6 +19,12 @@ import {
     ADD_TAGS_SUCCESS,
     ADD_TAGS_FAILURE,
     UI_RESET_ERROR,
+    ADV_FILTER_NAME,
+    ADV_FILTER_SALE,
+    ADV_FILTER_TAGS,
+    ADV_FILTER_MIN_PRICE,
+    ADV_FILTER_MAX_PRICE,
+    TOGGLE_RESULT,
 } from './types';
 import { areAdvertsLoaded, areTagsLoaded, getAdvertById } from './selectors';
 
@@ -229,3 +235,35 @@ export const deletedAdvert =
             dispatch(advertDeletedFailure(error));
         }
     };
+
+export const adFilterName = (value) => ({
+    type: ADV_FILTER_NAME,
+    payload: value,
+});
+
+export const adFilterSale = (value) => ({
+    type: ADV_FILTER_SALE,
+    payload: value,
+});
+
+export const adFilterTags = (value) => ({
+    type: ADV_FILTER_TAGS,
+    payload: value,
+});
+
+export const adFilterMinPrice = (value) => ({
+    type: ADV_FILTER_MIN_PRICE,
+    payload: value,
+});
+
+export const adFilterMaxPrice = (value) => ({
+    type: ADV_FILTER_MAX_PRICE,
+    payload: value,
+});
+
+export function toggleResult(value) {
+    return {
+      type: TOGGLE_RESULT,
+      value, // Show result?
+    };
+  }
