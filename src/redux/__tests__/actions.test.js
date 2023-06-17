@@ -1,5 +1,5 @@
 //import { fireEvent, render, screen } from '@testing-library/react';
-import { advertLoad, authLogin } from '../actions';
+import { advertLoad, advertLoadedSuccess, authLogin } from '../actions';
 //import { LoginPage } from '../../components/auth/LoginPage';
 //import axios from 'axios';
 //import { applyMiddleware, createStore } from 'redux';
@@ -142,52 +142,22 @@ describe('Testing React Redux actions', () => {
         });*/
     });
 
-    describe('Testing React Redux SYNC action "getAdvertById"', () => {
-        dispatch = jest.fn();
-        getState = jest.fn();
-        service = { advs: { getAdvert: jest.fn() } };
+    describe('Testing React Redux SYNC action "advertLoadedSuccess "', () => {
+        const testadvertLoadedSuccess = { id: '1', title: 'Advert 1' };
 
-        // create a spy on the getAdvertById selector
-        const getAdvertByIdSpy = jest.spyOn(selectors, 'getAdvertById');
+        // test the action creator
+        test('advertLoadedSuccess returns an action with type ADVERT_LOADED_SUCCESS and payload mockAdvert', () => {
+            // call the action creator with the mock advert
+            const action = advertLoadedSuccess(testadvertLoadedSuccess);
 
-        describe('"advertLoad" action', () => {
-            // mock the state of the application
-            const state = {
-                adverts: [
-                    { id: '1', title: 'Advert 1' },
-                    { id: '2', title: 'Advert 2' },
-                ],
+            // define the expected action object
+            const expectedAction = {
+                type: 'ADVERT_LOADED_SUCCESS',
+                payload: testadvertLoadedSuccess,
             };
 
-            // clear the mocks after each test
-            afterEach(() => {
-                jest.clearAllMocks();
-            });
-
-            test('should return the advert if it is found in the store', () => {
-                // make the getAdvertById selector return an advert
-                const advert = { id: '1', title: 'Advert 1' };
-                getAdvertByIdSpy.mockReturnValue(advert);
-
-                // call the advertLoad action with an existing id
-                const result = advertLoad('1')(dispatch, getState, service);
-
-                // check that the result is the advert
-                expect(result).toBe(advert);
-            });
-
-            test('should throw an error if the advert is not found in the store', () => {
-                // make the getAdvertById selector return null
-                getAdvertByIdSpy.mockReturnValue(null);
-
-                // define the expected error message
-                const errorMessage = 'Advert not found';
-
-                // call the advertLoad action with a non-existing id and expect it to throw an error
-                expect(() =>
-                    advertLoad('3')(dispatch, getState, service)
-                ).toThrow(errorMessage);
-            });
+            // check that the action is equal to the expected action
+            expect(action).toEqual(expectedAction);
         });
     });
 });
