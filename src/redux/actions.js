@@ -128,7 +128,7 @@ export const advertLoadedFailure = (error) => ({
 
 export const advertLoad =
     (advertId) =>
-    async (dispatch, getState, { service: { advs } }) => {
+     (dispatch, getState, { service: { advs } }) => {
         const isLoaded = getAdvertById(advertId)(getState());
         if (isLoaded) {
             return;
@@ -136,7 +136,7 @@ export const advertLoad =
 
         dispatch(advertsLoadedRequest());
         try {
-            const advert = await advs.getAdvert(advertId);
+            const advert =  advs.getAdvert(advertId);
             dispatch(advertLoadedSuccess(advert));
         } catch (error) {
             dispatch(advertLoadedFailure(error));
