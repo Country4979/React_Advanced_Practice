@@ -109,11 +109,11 @@ export function ui(state = defaultState.ui, action) {
     if (action.type === UI_RESET_ERROR) {
         return { ...state, error: null };
     }
-    if (action.type === TOGGLE_RESULT){
+    if (action.type === TOGGLE_RESULT) {
         return {
             ...state,
             dataFiltered: action.value,
-          };
+        };
     }
     return state;
 }
@@ -125,13 +125,23 @@ export function tagsList(state = defaultState.tags, action) {
     return state;
 }
 export function filteredAdverts(state = defaultState.filtered, action) {
+    var filteredAdverts=[];
     switch (action.type) {
         case ADV_FILTER_NAME:
+            const query = action.payload;
+            if (state.adverts) {
+                if (query === '') {
+                    filteredAdverts = state.adverts;
+                } else {
+                    filteredAdverts = state.adverts.filter(ad => ad.name.toLowerCase().includes(query.toLowerCase()));
+                }
+            }
             return {
                 ...state,
-                query: action.payload,
+                query: filteredAdverts,
             };
-        case ADV_FILTER_SALE:
+
+        /*case ADV_FILTER_SALE:
             return {
                 ...state,
                 querySale: action.payload,
@@ -150,36 +160,8 @@ export function filteredAdverts(state = defaultState.filtered, action) {
             return {
                 ...state,
                 queryMaxPrice: action.payload,
-            };
+            };*/
         default:
             return state;
     }
 }
-/*export function filteredAdverts(state = defaultState, action) {
-    switch (action.type) {
-        case FILTER_ADVERTS:
-            return state.filter((advert) => {
-                // Comprueba si el nombre del anuncio coincide con el valor del campo name (ignorando mayúsculas y minúsculas)
-                const matchName =
-                    action.data.name === '' ||
-                    advert.name
-                        .toLowerCase()
-                        .includes(action.data.name.toLowerCase());
-                // Comprueba si el tipo de venta del anuncio coincide con el valor del campo sale
-                const matchSale =
-                    action.data.sale === '' || advert.sale === action.data.sale;
-                // Comprueba si los tags del anuncio incluyen alguno de los valores del campo tags
-                const matchTags =
-                    action.data.tags.length === 0 ||
-                    action.data.tags.some((tag) => advert.tags.includes(tag));
-                // Comprueba si el precio del anuncio es menor o igual al valor del campo price
-                const matchPrice =
-                    action.data.price === '' ||
-                    advert.price <= action.data.price;
-                // Devuelve true si todos los campos coinciden, false si alguno no coincide
-                return matchName && matchSale && matchTags && matchPrice;
-            });
-        default:
-            return state;
-    }
-}*/

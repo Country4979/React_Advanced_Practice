@@ -9,11 +9,11 @@ import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdverts } from '../../store/selectors';
-import { advertsLoaded } from '../../store/actions';
-import { defaultState } from '../../store/reducers';
+import { adFilterName, advertsLoaded } from '../../store/actions';
+//import { defaultState } from '../../store/reducers';
 
 const EmptyList = ({ dataFiltered }) => {
-    console.log('isLogged en Adverts', defaultState.auth);
+
     return dataFiltered ? (
         <div style={{ textAlign: 'center' }}>
             <p>Sorry, no adverts yet.</p>
@@ -35,7 +35,7 @@ const AdvertsPage = ({ isLoading }) => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-    const adverts = useSelector(getAdverts);
+    const adverts =  useSelector(getAdverts);
 
     const onAdvertsLoaded = (adverts) => dispatch(advertsLoaded(adverts));
 
@@ -84,11 +84,13 @@ const AdvertsPage = ({ isLoading }) => {
         dispatch(advertsLoaded())
             .then((adverts) => {
                 filteredAdverts === 0
-                    ? setDataFiltered(true)
-                    : setDataFiltered(false);
-                onAdvertsLoaded(adverts);
+                    ? onAdvertsLoaded(adverts) //setDataFiltered(true)
+                    : dispatch(adFilterName(query))//setDataFiltered(false);
+                //onAdvertsLoaded(adverts);
+                //dispatch(adFilterName(query));
             })
             .catch((error) => {
+                console.log('El error: ', error)
                 if (error.status === 401) {
                     openModalErrorLogin();
                     navigate('/login');
@@ -96,14 +98,7 @@ const AdvertsPage = ({ isLoading }) => {
                     openModalError();
                 }
             });
-    }, [
-        dispatch,
-        filteredAdverts,
-        navigate,
-        onAdvertsLoaded,
-        openModalError,
-        openModalErrorLogin,
-    ]);
+    }, [dispatch, filteredAdverts, navigate, onAdvertsLoaded, openModalError, openModalErrorLogin, query]);
 
     return (
         <>
