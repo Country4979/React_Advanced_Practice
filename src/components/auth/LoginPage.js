@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogin, authLoginRequest, authLogout } from '../../store/actions';
+import { authLogin, authLoginRequest, authLogout, authlogout } from '../../store/actions';
 import Button from '../shared/Button';
 import './LoginPage.css';
 import '../shared/Buttons.css';
@@ -24,7 +24,7 @@ const LoginPage = () => {
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
     const [isOpenModalSuccess, closeModalSuccess] = UseModal(false);
 
-    const onLogout = () => dispatch(authLogout());
+    const onLogout = () => dispatch(authlogout());
 
     const handleSubmit = async (event) => {
         event.preventDefault();

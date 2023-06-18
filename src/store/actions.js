@@ -27,6 +27,7 @@ import {
     TOGGLE_RESULT,
 } from './types';
 import { areAdvertsLoaded, areTagsLoaded, getAdvertById } from './selectors';
+import { logout } from '../components/auth/service';
 
 // LOGIN actions & thunk:
 export const authLogin =
@@ -64,15 +65,16 @@ export const uiResetError = () => ({
 });
 
 //LOGOUT
-export const authLogout = () => ({
+export const authLogoutSuccess = () => ({
     type: AUTH_LOGOUT,
 });
 
-export const logout =
+export const authlogout =
     () =>
-    (dispatch, _getState, { api: { client } }, { router }) => {
-        dispatch(authLogout());
-        client.removeRequestHeaders();
+    async(dispatch, _getState, { client, service:{auth},router }) => {
+		await auth.logout();
+		client.removeAuthorizationHeader();
+        dispatch(authLogoutSuccess());
         router.navigate('/login');
     };
 
@@ -128,7 +130,7 @@ export const advertLoadedFailure = (error) => ({
 
 export const advertLoad =
     (advertId) =>
-     (dispatch, getState, { service: { advs } }) => {
+    (dispatch, getState, { service: { advs } }) => {
         const isLoaded = getAdvertById(advertId)(getState());
         if (isLoaded) {
             return;
@@ -136,7 +138,7 @@ export const advertLoad =
 
         dispatch(advertsLoadedRequest());
         try {
-            const advert =  advs.getAdvert(advertId);
+            const advert = advs.getAdvert(advertId);
             dispatch(advertLoadedSuccess(advert));
         } catch (error) {
             dispatch(advertLoadedFailure(error));
@@ -263,7 +265,7 @@ export const adFilterMaxPrice = (value) => ({
 
 export function toggleResult(value) {
     return {
-      type: TOGGLE_RESULT,
-      value, // Show result?
+        type: TOGGLE_RESULT,
+        value, // Show result?
     };
-  }
+}

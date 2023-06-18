@@ -7,7 +7,7 @@ import '../shared/vars.css';
 import './Navbar.css';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogout } from '../../store/actions';
+import { authLogout, authlogout } from '../../store/actions';
 import { getIsLogged } from '../../store/selectors';
 
 const Navbar = () => {
@@ -47,7 +47,7 @@ const Navbar = () => {
         openModaleLogout();
     };
     const dispatch = useDispatch();
-    const onLogout = () => dispatch(authLogout());
+    const onLogout = () => dispatch(authlogout());
     const handleClickLogout = async () => {
         closeModaleLogout();
         try {
