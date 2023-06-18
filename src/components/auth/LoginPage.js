@@ -95,6 +95,7 @@ const LoginPage = ({ isLogged }) => {
                     <p>
                         Please{' '}
                         <Button
+                            data-testid='logoutButton'
                             className='noDeleteButton'
                             variant='primary'
                             onClick={handleClickLogout}
@@ -108,22 +109,18 @@ const LoginPage = ({ isLogged }) => {
 
                 <div className='rigthSide'>
                     <form id='logUser' onSubmit={handleSubmit}>
-                        <label htmlFor='email'>
-                            email:
-                        </label>
+                        <label htmlFor='email'>email:</label>
                         <input
-                        data-testid='email'
+                            data-testid='email'
                             type='email'
                             name='email'
                             onChange={handleChange}
                             value={credentials.email}
                         />
                         <br />
-                        <label htmlFor='password'>
-                            Password:
-                        </label>
+                        <label htmlFor='password'>Password:</label>
                         <input
-                        data-testid='password'
+                            data-testid='password'
                             type='password'
                             name='password'
                             onChange={handleChange}
@@ -131,6 +128,7 @@ const LoginPage = ({ isLogged }) => {
                         />
                         <br />
                         <Button
+                            data-testid='loginButton'
                             className='noDeleteButton'
                             variant='primary'
                             type='submit'

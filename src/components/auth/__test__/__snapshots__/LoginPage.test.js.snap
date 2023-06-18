@@ -40,6 +40,7 @@ exports[`LoginPage snapshot 1`] = `
          
         <button
           class="sc-beqWaB dMDojR noDeleteButton"
+          data-testid="logoutButton"
           disabled=""
         >
           logout
@@ -80,6 +81,7 @@ exports[`LoginPage snapshot 1`] = `
         <br />
         <button
           class="sc-beqWaB dMDojR noDeleteButton"
+          data-testid="loginButton"
           disabled=""
           type="submit"
         >

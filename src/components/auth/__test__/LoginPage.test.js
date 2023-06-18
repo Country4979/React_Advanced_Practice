@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import LoginPage from '../LoginPage';
 import { Provider } from 'react-redux';
 import { defaultState } from '../../../redux/reducers';
@@ -26,7 +26,18 @@ describe('LoginPage', () => {
 
         renderComponent();
 
-        const emailInput = screen.getByTestId('email');
-        const passwordInput = screen.getByTestId('password');
+        const emailInput = screen.getByTestId(/email/);
+        const passwordInput = screen.getByTestId(/password/);
+        const submitLoginButton = screen.getByTestId(/loginButton/);
+        const submitLogoutButton = screen.getByTestId(/logoutButton/);
+
+        //Testing disabled buttons
+        expect(submitLoginButton).toBeDisabled();
+        expect(submitLogoutButton).toBeDisabled();
+
+        //Events for inputs
+
+        fireEvent.change(emailInput, { target: { value: email } });
+        fireEvent.change(passwordInput, { target: { value: password } });
     });
 });
