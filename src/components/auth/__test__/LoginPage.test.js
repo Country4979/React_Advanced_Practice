@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import LoginPage from '../LoginPage';
 import { Provider } from 'react-redux';
 import { defaultState } from '../../../redux/reducers';
@@ -18,5 +18,15 @@ describe('LoginPage', () => {
     test('snapshot', () => {
         const { container } = renderComponent();
         expect(container).toMatchSnapshot();
+    });
+
+    test('should dispatch authLogin action, ()', () => {
+        const email = 'test@test.com';
+        const password = '123';
+
+        renderComponent();
+
+        const emailInput = screen.getByTestId('email');
+        const passwordInput = screen.getByTestId('password');
     });
 });

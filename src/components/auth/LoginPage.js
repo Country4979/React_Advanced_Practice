@@ -22,8 +22,7 @@ const LoginPage = ({ isLogged }) => {
     const [errorMs, setErrorMs] = useState('');
 
     const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
-    const [isOpenModalSuccess, closeModalSuccess] =
-        UseModal(false);
+    const [isOpenModalSuccess, closeModalSuccess] = UseModal(false);
 
     const onLogout = () => dispatch(authLogout());
 
@@ -32,13 +31,12 @@ const LoginPage = ({ isLogged }) => {
 
         dispatch(authLoginRequest());
 
-        await dispatch(authLogin(credentials))
-            .catch((error) => {
-                error.message === 'Network Error'
-                    ? setErrorMs('An error occurred while logging in')
-                    : setErrorMs('Incorrect username or password');
-                openModalError();
-            });
+        await dispatch(authLogin(credentials)).catch((error) => {
+            error.message === 'Network Error'
+                ? setErrorMs('An error occurred while logging in')
+                : setErrorMs('Incorrect username or password');
+            openModalError();
+        });
     };
 
     const handleChange = (event) => {
@@ -75,20 +73,22 @@ const LoginPage = ({ isLogged }) => {
                 <h3 className='modalErrorH3'>Successful login!!</h3>
                 <small>You will be re-directed.</small>
             </Modal>
-            {error && <Modal
-                name='error'
-                isOpen={isOpenModalError}
-                closeModal={closeModalError}
-            >
-                <h3 className='modalErrorH3'>{errorMs}.</h3>
-                <Button
-                    className='noDeleteButton'
-                    variant='primary'
-                    onClick={closeModalError}
+            {error && (
+                <Modal
+                    name='error'
+                    isOpen={isOpenModalError}
+                    closeModal={closeModalError}
                 >
-                    Please try again...
-                </Button>
-            </Modal>}
+                    <h3 className='modalErrorH3'>{errorMs}.</h3>
+                    <Button
+                        className='noDeleteButton'
+                        variant='primary'
+                        onClick={closeModalError}
+                    >
+                        Please try again...
+                    </Button>
+                </Modal>
+            )}
             <div className='infoContainer'>
                 <div className='leftSide' id='leftSide'>
                     <h1 id='textLogin'>Already Logged?</h1>
@@ -108,16 +108,22 @@ const LoginPage = ({ isLogged }) => {
 
                 <div className='rigthSide'>
                     <form id='logUser' onSubmit={handleSubmit}>
-                        <label htmlFor='email'>email:</label>
+                        <label htmlFor='email'>
+                            email:
+                        </label>
                         <input
+                        data-testid='email'
                             type='email'
                             name='email'
                             onChange={handleChange}
                             value={credentials.email}
                         />
                         <br />
-                        <label htmlFor='password'>Password:</label>
+                        <label htmlFor='password'>
+                            Password:
+                        </label>
                         <input
+                        data-testid='password'
                             type='password'
                             name='password'
                             onChange={handleChange}

@@ -60,6 +60,7 @@ exports[`LoginPage snapshot 1`] = `
           email:
         </label>
         <input
+          data-testid="email"
           name="email"
           type="email"
           value=""
@@ -71,6 +72,7 @@ exports[`LoginPage snapshot 1`] = `
           Password:
         </label>
         <input
+          data-testid="password"
           name="password"
           type="password"
           value=""
