@@ -6,16 +6,17 @@ import { defaultState } from '../../../redux/reducers';
 describe('LoginPage', () => {
     const store = {
         getState: () => defaultState,
-        subscribe: () => {}
+        subscribe: () => {},
     };
-    const renderComponent = () => render(
-        <Provider store={store}>
-            <LoginPage />
-        </Provider>
-    );
+    const renderComponent = () =>
+        render(
+            <Provider store={store}>
+                <LoginPage />
+            </Provider>
+        );
 
     test('snapshot', () => {
-        const renderResult = renderComponent();
-        console.log(renderResult);
+        const { container } = renderComponent();
+        expect(container).toMatchSnapshot();
     });
 });

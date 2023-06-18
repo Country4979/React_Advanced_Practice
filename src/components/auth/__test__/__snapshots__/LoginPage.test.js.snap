@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage snapshot 1`] = `
+<div>
+  <article
+    class="modal false"
+  >
+    <div
+      class="modal-container"
+    >
+      <button
+        class="modal-close"
+      >
+        X
+      </button>
+      <h3
+        class="modalErrorH3"
+      >
+        Successful login!!
+      </h3>
+      <small>
+        You will be re-directed.
+      </small>
+    </div>
+  </article>
+  <div
+    class="infoContainer"
+  >
+    <div
+      class="leftSide"
+      id="leftSide"
+    >
+      <h1
+        id="textLogin"
+      >
+        Already Logged?
+      </h1>
+      <p>
+        Please
+         
+        <button
+          class="sc-beqWaB dMDojR noDeleteButton"
+          disabled=""
+        >
+          logout
+        </button>
+         
+        before to access AlaPop.
+      </p>
+    </div>
+    <div
+      class="rigthSide"
+    >
+      <form
+        id="logUser"
+      >
+        <label
+          for="email"
+        >
+          email:
+        </label>
+        <input
+          name="email"
+          type="email"
+          value=""
+        />
+        <br />
+        <label
+          for="password"
+        >
+          Password:
+        </label>
+        <input
+          name="password"
+          type="password"
+          value=""
+        />
+        <br />
+        <button
+          class="sc-beqWaB dMDojR noDeleteButton"
+          disabled=""
+          type="submit"
+        >
+          Login
+        </button>
+        <br />
+        <label>
+          Remember Login?
+          <input
+            name="rememberMe"
+            type="checkbox"
+          />
+        </label>
+      </form>
+    </div>
+  </div>
+</div>
+`;
