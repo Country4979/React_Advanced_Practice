@@ -2,27 +2,6 @@
 
 exports[`LoginPage snapshot 1`] = `
 <div>
-  <article
-    class="modal false"
-  >
-    <div
-      class="modal-container"
-    >
-      <button
-        class="modal-close"
-      >
-        X
-      </button>
-      <h3
-        class="modalErrorH3"
-      >
-        Successful login!!
-      </h3>
-      <small>
-        You will be re-directed.
-      </small>
-    </div>
-  </article>
   <div
     class="infoContainer"
   >

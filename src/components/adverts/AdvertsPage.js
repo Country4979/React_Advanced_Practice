@@ -10,8 +10,10 @@ import Modal from '../modals/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdverts } from '../../redux/selectors';
 import { advertsLoaded } from '../../redux/actions';
+import { defaultState } from '../../redux/reducers';
 
 const EmptyList = ({ dataFiltered }) => {
+    console.log('isLogged en Adverts', defaultState.auth)
     return dataFiltered ? (
         <div style={{ textAlign: 'center' }}>
             <p>Sorry, no adverts yet.</p>

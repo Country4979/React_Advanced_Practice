@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authLogin, authLoginRequest, authLogout } from '../../redux/actions';
 import Button from '../shared/Button';
-//import { logout } from './service';
 import './LoginPage.css';
 import '../shared/Buttons.css';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
-import { getUi } from '../../redux/selectors';
+import { getIsLogged, getUi } from '../../redux/selectors';
 
-const LoginPage = ({ isLogged }) => {
+const LoginPage = () => {
+    const isLogged = useSelector(getIsLogged);
     const [credentials, setCredentials] = useState({
         email: '',
         password: '',
@@ -55,12 +55,11 @@ const LoginPage = ({ isLogged }) => {
     };
 
     const handleClickLogout = async () => {
-        //await logout();
         onLogout();
     };
-
+  
     const buttonDisabled =
-        isLoading || !credentials.email || !credentials.password || isLogged;
+        isLoading || !credentials.email || !credentials.password;
     const logoutButtonDisabbled = isLogged;
 
     return (
