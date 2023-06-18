@@ -5,14 +5,15 @@ import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import './NewAdvertPage.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIsLogged, getTags, getUi } from '../../store/selectors';
+import { getIsLogged, getTags, getToken, getUi } from '../../store/selectors';
 import { advertCreate, getTagsListed } from '../../store/actions';
 
 const NewAdvertPage = () => {
     const isLogged = useSelector(getIsLogged);
+    const token = useSelector(getToken);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { isLoading, error } = useSelector(getUi);
+    const { isLoading } = useSelector(getUi);
 
     const [data, setData] = useState({
         name: '',
@@ -61,17 +62,20 @@ const NewAdvertPage = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        try {
-            dispatch(advertCreate(data));
-            openModalSuccess();
-        } catch (error) {
-            if (error.status === 401) {
-                openModalErrorLogin();
-                navigate('/login');
-            } else {
-                openModalError();
+        if (token || isLogged) {
+            try {
+                dispatch(advertCreate(data));
+                openModalSuccess();
+            } catch (error) {
+                if (error.status === 401) {
+                    openModalErrorLogin();
+                    navigate('/login');
+                } else {
+                    openModalError();
+                }
             }
         }
+        else{navigate('/login')}
     };
 
     const isDisabled =

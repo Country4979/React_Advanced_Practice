@@ -7,9 +7,10 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import RequireAuth from './components/auth/RequireAuth';
 import { useSelector } from 'react-redux';
-import { getIsLogged } from './store/selectors';
+import { getIsLogged, getToken } from './store/selectors';
 
 function App() {
+    const token= useSelector(getToken)
     const isLogged = useSelector(getIsLogged);
 
     return (
@@ -44,7 +45,7 @@ function App() {
                     <Route
                         path='/'
                         element={
-                            isLogged ? (
+                            isLogged || token ? (
                                 <Navigate to='/adverts' />
                             ) : (
                                 <Navigate to='/login' />
