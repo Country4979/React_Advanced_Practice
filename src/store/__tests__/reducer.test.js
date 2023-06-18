@@ -3,7 +3,7 @@ import { auth } from '../reducers';
 
 describe('Testing React Redux Reducer', () => {
     describe('"auth" reducer test', () => {
-        var state;
+        let state;
         beforeEach(() => {
             state = false;
         });

@@ -31,7 +31,7 @@ describe('LoginPage', () => {
     test('should dispatch authLogin action, ()', () => {
         const email = 'test@test.com';
         const password = '123';
-        var rememberMe = false;
+        let rememberMe = false;
 
         renderComponent();
 
