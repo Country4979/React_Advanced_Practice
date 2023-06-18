@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import storage from './utils/storage';
 import { setAuthorizationHeader } from './api/client';
 
-import configureStore from './redux';
+import configureStore from './store';
 
 import Root from './Root';
 import { createBrowserRouter } from 'react-router-dom';

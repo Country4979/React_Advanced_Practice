@@ -5,8 +5,8 @@ import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import './NewAdvertPage.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIsLogged, getTags, getUi } from '../../redux/selectors';
-import { advertCreate, getTagsListed } from '../../redux/actions';
+import { getIsLogged, getTags, getUi } from '../../store/selectors';
+import { advertCreate, getTagsListed } from '../../store/actions';
 
 const NewAdvertPage = () => {
     const isLogged = useSelector(getIsLogged);

@@ -7,8 +7,8 @@ import Modal from '../modals/Modal';
 import '../shared/loading.css';
 import './AdvertPage.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdvertById, getUi } from '../../redux/selectors';
-import { advertLoad, deletedAdvert } from '../../redux/actions';
+import { getAdvertById, getUi } from '../../store/selectors';
+import { advertLoad, deletedAdvert } from '../../store/actions';
 
 const AdvertPage = () => {
     const navigate = useNavigate();
@@ -104,8 +104,11 @@ const AdvertPage = () => {
                             Are you REALLY sure you want to delete this ad?
                         </h3>
                         <p>
-                            This action will permanently delete your ad!!<br/>
-                            <small>~ You will be redirected to Home page. ~</small>
+                            This action will permanently delete your ad!!
+                            <br />
+                            <small>
+                                ~ You will be redirected to Home page. ~
+                            </small>
                         </p>
                         <Button
                             onClick={handleDelete}

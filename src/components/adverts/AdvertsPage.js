@@ -8,12 +8,12 @@ import Advert from './Advert';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdverts } from '../../redux/selectors';
-import { advertsLoaded } from '../../redux/actions';
-import { defaultState } from '../../redux/reducers';
+import { getAdverts } from '../../store/selectors';
+import { advertsLoaded } from '../../store/actions';
+import { defaultState } from '../../store/reducers';
 
 const EmptyList = ({ dataFiltered }) => {
-    console.log('isLogged en Adverts', defaultState.auth)
+    console.log('isLogged en Adverts', defaultState.auth);
     return dataFiltered ? (
         <div style={{ textAlign: 'center' }}>
             <p>Sorry, no adverts yet.</p>
@@ -96,7 +96,14 @@ const AdvertsPage = ({ isLoading }) => {
                     openModalError();
                 }
             });
-    }, [dispatch, filteredAdverts, navigate, onAdvertsLoaded, openModalError, openModalErrorLogin]);
+    }, [
+        dispatch,
+        filteredAdverts,
+        navigate,
+        onAdvertsLoaded,
+        openModalError,
+        openModalErrorLogin,
+    ]);
 
     return (
         <>

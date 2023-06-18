@@ -7,7 +7,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import RequireAuth from './components/auth/RequireAuth';
 import { useSelector } from 'react-redux';
-import { getIsLogged } from './redux/selectors';
+import { getIsLogged } from './store/selectors';
 
 function App() {
     const isLogged = useSelector(getIsLogged);

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogin, authLoginRequest, authLogout } from '../../redux/actions';
+import { authLogin, authLoginRequest, authLogout } from '../../store/actions';
 import Button from '../shared/Button';
 import './LoginPage.css';
 import '../shared/Buttons.css';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
-import { getIsLogged, getUi } from '../../redux/selectors';
+import { getIsLogged, getUi } from '../../store/selectors';
 
 const LoginPage = () => {
     const isLogged = useSelector(getIsLogged);
@@ -57,7 +57,7 @@ const LoginPage = () => {
     const handleClickLogout = async () => {
         onLogout();
     };
-  
+
     const buttonDisabled =
         isLoading || !credentials.email || !credentials.password;
     const logoutButtonDisabbled = isLogged;

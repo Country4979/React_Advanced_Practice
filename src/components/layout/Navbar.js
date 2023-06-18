@@ -7,8 +7,8 @@ import '../shared/vars.css';
 import './Navbar.css';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogout } from '../../redux/actions';
-import { getIsLogged } from '../../redux/selectors';
+import { authLogout } from '../../store/actions';
+import { getIsLogged } from '../../store/selectors';
 
 const Navbar = () => {
     const isLogged = useSelector(getIsLogged);
