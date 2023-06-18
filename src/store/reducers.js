@@ -11,9 +11,10 @@ import {
     ADV_FILTER_NAME,
     ADV_FILTER_SALE,
     ADV_FILTER_TAGS,
-    ADV_FILTER_MIN_PRICE,
-    ADV_FILTER_MAX_PRICE,
+    //ADV_FILTER_MIN_PRICE,
+    //ADV_FILTER_MAX_PRICE,
     TOGGLE_RESULT,
+    ADV_FILTER_PRICE,
 } from './types';
 
 export const defaultState = {
@@ -125,9 +126,9 @@ export function tagsList(state = defaultState.tags, action) {
     return state;
 }
 export function filteredAdverts(state = defaultState.filtered, action) {
-    var filteredAdverts=[];
+    var filteredAdverts = [];
     switch (action.type) {
-        case ADV_FILTER_NAME:
+        /*case ADV_FILTER_NAME:
             const query = action.payload;
             if (state.adverts) {
                 if (query === '') {
@@ -139,6 +140,27 @@ export function filteredAdverts(state = defaultState.filtered, action) {
             return {
                 ...state,
                 query: filteredAdverts,
+            };*/
+        case ADV_FILTER_NAME:
+        case ADV_FILTER_PRICE:
+            const { query } = action.payload;
+            const { minPrice, maxPrice } = action.payload;
+            let filteredAdverts;
+            if (state.adverts) {
+                filteredAdverts = state.adverts;
+                if (query !== undefined) {
+                    filteredAdverts = filteredAdverts.filter((ad) =>
+                        ad.name.toLowerCase().includes(query.toLowerCase())
+                    );
+                } else if (minPrice !== undefined && maxPrice !== undefined) {
+                    filteredAdverts = filteredAdverts.filter(
+                        (ad) => ad.price >= minPrice && ad.price <= maxPrice
+                    );
+                }
+            }
+            return {
+                ...state,
+                filteredAdverts,
             };
 
         /*case ADV_FILTER_SALE:

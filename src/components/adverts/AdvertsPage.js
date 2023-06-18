@@ -9,11 +9,10 @@ import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdverts } from '../../store/selectors';
-import { adFilterName, advertsLoaded } from '../../store/actions';
+import { adFilterName, adFilterPrice, advertsLoaded } from '../../store/actions';
 //import { defaultState } from '../../store/reducers';
 
 const EmptyList = ({ dataFiltered }) => {
-
     return dataFiltered ? (
         <div style={{ textAlign: 'center' }}>
             <p>Sorry, no adverts yet.</p>
@@ -35,7 +34,7 @@ const AdvertsPage = ({ isLoading }) => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-    const adverts =  useSelector(getAdverts);
+    const adverts = useSelector(getAdverts);
 
     const onAdvertsLoaded = (adverts) => dispatch(advertsLoaded(adverts));
 
@@ -47,7 +46,6 @@ const AdvertsPage = ({ isLoading }) => {
         work: false,
     });
     const [dataFiltered, setDataFiltered] = useState([]);
-    const [querySale, setQuerySale] = useState('');
     const [maxPrice, setQueryMaxPrice] = useState(Infinity);
     const [minPrice, setQueryMinPrice] = useState(-Infinity);
 
@@ -64,7 +62,19 @@ const AdvertsPage = ({ isLoading }) => {
     let filteredAdverts = adverts.filter((advert) =>
         advert.name.toUpperCase().startsWith(query.toLocaleUpperCase())
     );
-
+    const handleFilter = (event) => {
+        const { name, value } = event.target;
+        if (name === 'filterByName') {
+            setQuery(value);
+            dispatch(adFilterName(value));
+        } else if (name === 'minPrice') {
+            setQueryMinPrice(value);
+            dispatch(adFilterPrice(value, maxPrice));
+        } else if (name === 'maxPrice') {
+            setQueryMaxPrice(value);
+            dispatch(adFilterPrice(minPrice, value));
+        }
+    }
     /*FILTER BY PRICE*/
     if ((minPrice || maxPrice) && Number(minPrice) < Number(maxPrice)) {
         filteredAdverts = filteredAdverts.filter(
@@ -85,12 +95,12 @@ const AdvertsPage = ({ isLoading }) => {
             .then((adverts) => {
                 filteredAdverts === 0
                     ? onAdvertsLoaded(adverts) //setDataFiltered(true)
-                    : dispatch(adFilterName(query))//setDataFiltered(false);
+                    : dispatch(adFilterName(query)); //setDataFiltered(false);
                 //onAdvertsLoaded(adverts);
                 //dispatch(adFilterName(query));
             })
             .catch((error) => {
-                console.log('El error: ', error)
+                console.log('El error: ', error);
                 if (error.status === 401) {
                     openModalErrorLogin();
                     navigate('/login');
@@ -98,7 +108,15 @@ const AdvertsPage = ({ isLoading }) => {
                     openModalError();
                 }
             });
-    }, [dispatch, filteredAdverts, navigate, onAdvertsLoaded, openModalError, openModalErrorLogin, query]);
+    }, [
+        dispatch,
+        filteredAdverts,
+        navigate,
+        onAdvertsLoaded,
+        openModalError,
+        openModalErrorLogin,
+        query,
+    ]);
 
     return (
         <>
@@ -218,9 +236,7 @@ const AdvertsPage = ({ isLoading }) => {
                                     type='number'
                                     placeholder='Min'
                                     value={minPrice}
-                                    onChange={(event) =>
-                                        setQueryMinPrice(event.target.value)
-                                    }
+                                    onChange={handleFilter}
                                     className='numberInputs'
                                 />
                                 <input
@@ -228,12 +244,11 @@ const AdvertsPage = ({ isLoading }) => {
                                     type='number'
                                     placeholder='Max'
                                     value={maxPrice}
-                                    onChange={(event) =>
-                                        setQueryMaxPrice(event.target.value)
-                                    }
+                                    onChange={handleFilter}
                                     className='numberInputs'
                                 />
                             </div>
+                            
                         </div>
                         {!!adverts.length && filteredAdverts.length ? (
                             <>

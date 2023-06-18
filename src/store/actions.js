@@ -23,9 +23,10 @@ import {
     ADV_FILTER_NAME,
     ADV_FILTER_SALE,
     ADV_FILTER_TAGS,
-    ADV_FILTER_MIN_PRICE,
-    ADV_FILTER_MAX_PRICE,
+    //ADV_FILTER_MIN_PRICE,
+    //ADV_FILTER_MAX_PRICE,
     TOGGLE_RESULT,
+    ADV_FILTER_PRICE,
 } from './types';
 import { areAdvertsLoaded, areTagsLoaded, getAdvertById } from './selectors';
 
@@ -47,7 +48,7 @@ export const authLogin =
             dispatch(authLoginSuccess());
 
             // Set token in the store
-            const token = localStorage.getItem('auth')
+            const token = localStorage.getItem('auth');
             dispatch(setToken(token));
             // Redirect to pathname
             const to = router.state?.from?.pathname || '/';
@@ -264,16 +265,20 @@ export const adFilterTags = (value) => ({
     payload: value,
 });
 
-export const adFilterMinPrice = (value) => ({
+/*export const adFilterMinPrice = (value) => ({
     type: ADV_FILTER_MIN_PRICE,
     payload: value,
-});
+});*/
 
-export const adFilterMaxPrice = (value) => ({
+/*export const adFilterMaxPrice = (value) => ({
     type: ADV_FILTER_MAX_PRICE,
     payload: value,
-});
+});*/
 
+export const adFilterPrice = (minPrice, maxPrice, exactPrice) => ({
+    type: ADV_FILTER_PRICE,
+    payload: { minPrice, maxPrice },
+});
 export function toggleResult(value) {
     return {
         type: TOGGLE_RESULT,
