@@ -2,20 +2,19 @@ import { getAdvertById, getAdverts } from '../selectors';
 
 describe('Testing React Redux Selectors getAdverts & getAdvertsById', () => {
     //Test state and expected objects before each test
-    var state;
-    var objectsArray;
-    beforeEach(() => {
-        objectsArray = [
-            {
-                id: 1,
-                name: 'advert 1',
-            },
-            {
-                id: 2,
-                name: 'advert 2',
-            },
-        ];
+    let state;
+    const objectsArray = [
+        {
+            id: 1,
+            name: 'advert 1',
+        },
+        {
+            id: 2,
+            name: 'advert 2',
+        },
+    ];
 
+    beforeEach(() => {
         state = {
             auth: false,
             adverts: {

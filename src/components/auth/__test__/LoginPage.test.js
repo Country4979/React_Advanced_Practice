@@ -1,11 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import LoginPage from '../LoginPage';
 import { Provider } from 'react-redux';
-import { defaultState } from '../../../redux/reducers';
-import { authLogin } from '../../../redux/actions';
-import Modal from '../../modals/Modal';
+import { defaultState } from '../../../store/reducers';
+import { authLogin } from '../../../store/actions';
 
-jest.mock('../../../redux/actions');
+jest.mock('../../../store/actions');
 jest.mock('../../modals/Modal', () => {
     //Creates a simulated function to check the properties passed to the Modal component
     const mockModal = jest.fn((props) => null);

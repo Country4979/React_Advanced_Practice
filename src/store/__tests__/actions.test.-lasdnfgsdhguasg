@@ -1,11 +1,7 @@
-//import { fireEvent, render, screen } from '@testing-library/react';
-import { advertLoad, advertLoadedSuccess, authLogin } from '../actions';
-//import { LoginPage } from '../../components/auth/LoginPage';
-//import axios from 'axios';
-//import { applyMiddleware, createStore } from 'redux';
-//import ReduxThunk from 'redux-thunk';
-//import rootReducer from './rootReducer';
-import * as selectors from '../selectors';
+
+import { advertLoadedSuccess, authLogin } from '../actions';
+
+
 describe('Testing React Redux actions', () => {
     var dispatch;
     var getState;
@@ -89,57 +85,6 @@ describe('Testing React Redux actions', () => {
             expect(dispatch).toHaveBeenNthCalledWith(1, expectedAction[0]);
             expect(dispatch).toHaveBeenNthCalledWith(2, expectedAction[1]);
         });
-        /*
-        // Añadir un test para el checkbox
-        test('authLogin sets the token when checkbox is checked', async () => {
-            
-            // Crear un objeto con el servicio axios    ERROR AQUÍ
-      const extraArgument = {
-        axios: axios
-      };
-    
-      // Crear un middleware thunk con el extraArgument
-      const thunkMiddleware = ReduxThunk.default.withExtraArgument(extraArgument);
-    
-      // Aplicar el middleware thunk al store de Redux
-      const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
-            render(<LoginPage />);
-            // Obtener el checkbox por su etiqueta o por su id
-            const checkbox = screen.getByLabelText('Remember Login?');
-    
-            // Comprobar que el checkbox no está activado al principio
-            expect(checkbox.checked).toBe(false);
-    
-            // Simular el clic sobre el checkbox
-            fireEvent.click(checkbox);
-    
-            // Comprobar que el checkbox está activado después del clic
-            expect(checkbox.checked).toBe(true);
-    
-            // Simular el login exitoso con el checkbox activado
-            auth.login.mockResolvedValue({
-                success: true,
-                user: {
-                    email: 'test@test.com',
-                    password: '1234',
-                },
-                token: 'some-token', // Suponer que el servicio devuelve un token
-            });
-            const credentials = {
-                email: 'test@test.com',
-                password: '1234',
-            };
-            await authLogin(credentials)(dispatch, getState, {
-                service: { auth },
-                router,
-            });
-    
-            // Comprobar que se ha guardado el token en algún lugar (por ejemplo, en localStorage)
-            expect(localStorage.setItem).toHaveBeenCalledWith(
-                'token',
-                'some-token'
-            );
-        });*/
     });
 
     describe('Testing React Redux SYNC action "advertLoadedSuccess "', () => {

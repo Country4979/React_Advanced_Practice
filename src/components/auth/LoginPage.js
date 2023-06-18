@@ -30,13 +30,14 @@ const LoginPage = () => {
         event.preventDefault();
 
         dispatch(authLoginRequest());
-
-        await dispatch(authLogin(credentials)).catch((error) => {
+        try {
+            await dispatch(authLogin(credentials));
+        } catch (error) {
             error.message === 'Network Error'
                 ? setErrorMs('An error occurred while logging in')
                 : setErrorMs('Incorrect username or password');
             openModalError();
-        });
+        }
     };
 
     const handleChange = (event) => {
