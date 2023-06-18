@@ -1,4 +1,5 @@
 export const getIsLogged = (state) => state.auth;
+export const getToken = (state) => state.token;
 export const areAdvertsLoaded = (state) => state.adverts.areLoaded;
 export const getAdverts = (state) =>
     state.adverts.data ? state.adverts.data : [];

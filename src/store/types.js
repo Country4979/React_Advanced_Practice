@@ -3,6 +3,7 @@ export const AUTH_LOGIN_REQUEST = 'AUTH_LOGIN_REQUEST';
 export const AUTH_LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS';
 export const AUTH_LOGIN_FAILURE = 'AUTH_LOGIN_FAILURE';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+export const SET_TOKEN = 'SET_TOKEN';
 
 export const UI_RESET_ERROR = 'UI_RESET_ERROR';
 
@@ -32,4 +33,4 @@ export const ADV_FILTER_TAGS = 'ADV_FILTER_TAGS';
 export const ADV_FILTER_MIN_PRICE = 'ADV_FILTER_MIN_PRICE';
 export const ADV_FILTER_MAX_PRICE = 'ADV_FILTER_MAX_PRICE';
 
-export const TOGGLE_RESULT = "TOGGLE_RESULT"; //Show filter results?
+export const TOGGLE_RESULT = 'TOGGLE_RESULT'; //Show filter results?

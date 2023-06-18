@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogin, authLoginRequest, authLogout, authlogout } from '../../store/actions';
+import { authLogin, authLoginRequest, authlogout } from '../../store/actions';
 import Button from '../shared/Button';
 import './LoginPage.css';
 import '../shared/Buttons.css';

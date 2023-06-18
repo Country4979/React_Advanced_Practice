@@ -5,6 +5,7 @@ import {
     AUTH_LOGIN_FAILURE,
     AUTH_LOGIN_REQUEST,
     AUTH_LOGIN_SUCCESS,
+    SET_TOKEN,
     ADVERT_LOADED_REQUEST,
     ADVERT_LOADED_SUCCESS,
     ADVERT_LOADED_FAILURE,
@@ -27,7 +28,12 @@ import {
     TOGGLE_RESULT,
 } from './types';
 import { areAdvertsLoaded, areTagsLoaded, getAdvertById } from './selectors';
-import { logout } from '../components/auth/service';
+
+//TOKEN actions
+export const setToken = (token) => ({
+    type: SET_TOKEN,
+    payload: token,
+});
 
 // LOGIN actions & thunk:
 export const authLogin =
@@ -36,8 +42,13 @@ export const authLogin =
         dispatch(authLoginRequest());
         try {
             await auth.login(credentials);
+
             //Logged in:
             dispatch(authLoginSuccess());
+
+            // Set token in the store
+            const token = localStorage.getItem('auth')
+            dispatch(setToken(token));
             // Redirect to pathname
             const to = router.state?.from?.pathname || '/';
             router.navigate(to);
@@ -71,9 +82,9 @@ export const authLogoutSuccess = () => ({
 
 export const authlogout =
     () =>
-    async(dispatch, _getState, { client, service:{auth},router }) => {
-		await auth.logout();
-		client.removeAuthorizationHeader();
+    async (dispatch, _getState, { client, service: { auth }, router }) => {
+        await auth.logout();
+        client.removeAuthorizationHeader();
         dispatch(authLogoutSuccess());
         router.navigate('/login');
     };

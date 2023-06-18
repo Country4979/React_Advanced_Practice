@@ -2,12 +2,10 @@ import Button from '../shared/Button';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
-//import { logout } from '../auth/service';
 import '../shared/vars.css';
 import './Navbar.css';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogout, authlogout } from '../../store/actions';
+import { authlogout } from '../../store/actions';
 import { getIsLogged } from '../../store/selectors';
 
 const Navbar = () => {

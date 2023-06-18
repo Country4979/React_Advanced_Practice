@@ -4,6 +4,7 @@ import {
     ADVERT_CREATED_SUCCESS,
     ADVERT_DELETED_SUCCESS,
     AUTH_LOGIN_SUCCESS,
+    SET_TOKEN,
     AUTH_LOGOUT,
     UI_RESET_ERROR,
     ADD_TAGS_SUCCESS,
@@ -17,6 +18,7 @@ import {
 
 export const defaultState = {
     auth: false,
+    token: null,
     adverts: {
         areLoaded: false,
         data: [],
@@ -45,6 +47,14 @@ export function auth(state = defaultState.auth, action) {
             return true;
         case AUTH_LOGOUT:
             return false;
+        default:
+            return state;
+    }
+}
+export function token(state = defaultState.token, action) {
+    switch (action.type) {
+        case SET_TOKEN:
+            return action.payload;
         default:
             return state;
     }
