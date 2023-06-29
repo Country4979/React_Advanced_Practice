@@ -9,12 +9,14 @@ import {
     UI_RESET_ERROR,
     ADD_TAGS_SUCCESS,
     ADV_FILTER_NAME,
-    ADV_FILTER_SALE,
-    ADV_FILTER_TAGS,
+    //ADV_FILTER_SALE,
+    //ADV_FILTER_TAGS,
     //ADV_FILTER_MIN_PRICE,
     //ADV_FILTER_MAX_PRICE,
     TOGGLE_RESULT,
     ADV_FILTER_PRICE,
+    OPEN_MODAL,
+    CLOSE_MODAL,
 } from './types';
 
 export const defaultState = {
@@ -39,8 +41,26 @@ export const defaultState = {
         isLoading: false,
         error: null,
         dataFiltered: false,
+        isOpen: false,
     },
 };
+
+export function modal(state = defaultState.ui, action) {
+    switch (action.type) {
+        case OPEN_MODAL:
+            return {
+                ...state,
+                isOpen: true,
+            };
+        case CLOSE_MODAL:
+            return {
+                ...state,
+                isOpen: false,
+            };
+        default:
+            return state;
+    }
+}
 
 export function auth(state = defaultState.auth, action) {
     switch (action.type) {
