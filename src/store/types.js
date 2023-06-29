@@ -35,3 +35,6 @@ export const ADV_FILTER_TAGS = 'ADV_FILTER_TAGS';
 export const ADV_FILTER_PRICE = 'ADV_FILTER_PRICE';
 
 export const TOGGLE_RESULT = 'TOGGLE_RESULT'; //Show filter results?
+
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';

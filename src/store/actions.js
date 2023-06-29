@@ -27,6 +27,8 @@ import {
     //ADV_FILTER_MAX_PRICE,
     TOGGLE_RESULT,
     ADV_FILTER_PRICE,
+    OPEN_MODAL,
+    CLOSE_MODAL,
 } from './types';
 import { areAdvertsLoaded, areTagsLoaded, getAdvertById } from './selectors';
 
@@ -285,3 +287,13 @@ export function toggleResult(value) {
         value, // Show result?
     };
 }
+
+//MODAL WINDOWS
+
+export const openModal = () => ({
+    type: OPEN_MODAL,
+});
+
+export const closeModal = () => ({
+    type: CLOSE_MODAL,
+});
