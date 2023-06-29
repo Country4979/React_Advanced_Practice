@@ -21,9 +21,10 @@ describe('Testing React Redux actions', () => {
         test('When logi API resolves shoould follow the login flow', async () => {
             service.auth.login = jest.fn().mockResolvedValue();
             await action(dispatch, undefined, { service, router });
-            //expect(dispatch).toHaveBeenCalledTimes(1, authLoginRequest()); //--> Hace tres llamadas y da error
+            expect(dispatch).toBeCalledTimes(3)
+            expect(dispatch).toHaveBeenCalledTimes(1, authLoginRequest()); //--> Hace tres llamadas y da error
             expect(service.auth.login).toHaveBeenCalledWith(credentials);
-            //expect(dispatch).toHaveBeenCalledWith(2, authLoginSuccess()); //--> El mismo error que authLoginRequest
+            expect(dispatch).toHaveBeenCalledWith(2, authLoginSuccess()); //--> El mismo error que authLoginRequest
             expect(router.navigate).toHaveBeenCalledWith(redirectUrl);
         });
     });
