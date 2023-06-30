@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogin, authLoginRequest, authlogout } from '../../store/actions';
+import {
+    authLogin,
+    authLoginRequest,
+    authlogout,
+    closeModal,
+    openModal,
+} from '../../store/actions';
 import Button from '../shared/Button';
 import './LoginPage.css';
 import '../shared/Buttons.css';
@@ -17,12 +23,12 @@ const LoginPage = () => {
     });
     const dispatch = useDispatch();
 
-    const { isLoading, error } = useSelector(getUi);
+    const { isLoading, error, isOpen } = useSelector(getUi);
 
     const [errorMs, setErrorMs] = useState('');
 
-    const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
-    const [isOpenModalSuccess, closeModalSuccess] = UseModal(false);
+    //const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
+    //const [isOpenModalSuccess, closeModalSuccess] = UseModal(false);
 
     const onLogout = () => dispatch(authlogout());
 
@@ -36,8 +42,15 @@ const LoginPage = () => {
             error.message === 'Network Error'
                 ? setErrorMs('An error occurred while logging in')
                 : setErrorMs('Incorrect username or password');
-            openModalError();
+            dispatch(openModal()); // abre el modal de error
         }
+    };
+
+    const closeModalError = () => {
+        dispatch(closeModal()); // cierra el modal de error
+    };
+    const closeModalSuccess = () => {
+        dispatch(closeModal()); // cierra el modal de éxito
     };
 
     const handleChange = (event) => {
@@ -67,7 +80,7 @@ const LoginPage = () => {
         <>
             <Modal
                 name='success'
-                isOpen={isOpenModalSuccess}
+                isOpen={isOpen}
                 closeModal={closeModalSuccess}
             >
                 <h3 className='modalErrorH3'>Successful login!!</h3>
@@ -76,7 +89,7 @@ const LoginPage = () => {
             {error && (
                 <Modal
                     name='error'
-                    isOpen={isOpenModalError}
+                    isOpen={isOpen}
                     closeModal={closeModalError}
                 >
                     <h3 className='modalErrorH3'>{errorMs}.</h3>

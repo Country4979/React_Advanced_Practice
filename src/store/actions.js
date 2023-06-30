@@ -290,8 +290,9 @@ export function toggleResult(value) {
 
 //MODAL WINDOWS
 
-export const openModal = () => ({
+export const openModal = (modalType) => ({
     type: OPEN_MODAL,
+    payload: modalType
 });
 
 export const closeModal = () => ({

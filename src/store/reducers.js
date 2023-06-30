@@ -42,6 +42,7 @@ export const defaultState = {
         error: null,
         dataFiltered: false,
         isOpen: false,
+        modalType: null,
     },
 };
 
@@ -51,12 +52,10 @@ export function modal(state = defaultState.ui, action) {
             return {
                 ...state,
                 isOpen: true,
+                modalType: action.payload,
             };
         case CLOSE_MODAL:
-            return {
-                ...state,
-                isOpen: false,
-            };
+            return defaultState;
         default:
             return state;
     }
