@@ -10,9 +10,9 @@ import {
 import Button from '../shared/Button';
 import './LoginPage.css';
 import '../shared/Buttons.css';
-import { UseModal } from '../modals/UseModal';
+//import { UseModal } from '../modals/UseModal';
 import Modal from '../modals/Modal';
-import { getIsLogged, getUi } from '../../store/selectors';
+import { getIsLogged, getModalstate, getUi } from '../../store/selectors';
 
 const LoginPage = () => {
     const isLogged = useSelector(getIsLogged);
@@ -23,12 +23,9 @@ const LoginPage = () => {
     });
     const dispatch = useDispatch();
 
-    const { isLoading, error, isOpen } = useSelector(getUi);
-
+    const { isLoading, error } = useSelector(getUi);
+    const modalWindow = useSelector(getModalstate);
     const [errorMs, setErrorMs] = useState('');
-
-    //const [isOpenModalError, openModalError, closeModalError] = UseModal(false);
-    //const [isOpenModalSuccess, closeModalSuccess] = UseModal(false);
 
     const onLogout = () => dispatch(authlogout());
 
@@ -42,15 +39,12 @@ const LoginPage = () => {
             error.message === 'Network Error'
                 ? setErrorMs('An error occurred while logging in')
                 : setErrorMs('Incorrect username or password');
-            dispatch(openModal()); // abre el modal de error
+            dispatch(openModal('error')); // open error modal window
         }
     };
 
-    const closeModalError = () => {
-        dispatch(closeModal()); // cierra el modal de error
-    };
-    const closeModalSuccess = () => {
-        dispatch(closeModal()); // cierra el modal de éxito
+    const closeModals = () => {
+        dispatch(closeModal()); // close modal modal window
     };
 
     const handleChange = (event) => {
@@ -78,28 +72,34 @@ const LoginPage = () => {
 
     return (
         <>
-            <Modal
-                name='success'
-                isOpen={isOpen}
-                closeModal={closeModalSuccess}
-            >
-                <h3 className='modalErrorH3'>Successful login!!</h3>
-                <small>You will be re-directed.</small>
-            </Modal>
-            {error && (
+            {modalWindow.isOpen && (
                 <Modal
-                    name='error'
-                    isOpen={isOpen}
-                    closeModal={closeModalError}
+                    isOpen={modalWindow.isOpen}
+                    closeModal={closeModals}
+                    modalType={modalWindow.modalType}
                 >
-                    <h3 className='modalErrorH3'>{errorMs}.</h3>
-                    <Button
-                        className='noDeleteButton'
-                        variant='primary'
-                        onClick={closeModalError}
-                    >
-                        Please try again...
-                    </Button>
+                    {modalWindow.modalType === 'success' ? (
+                        <>
+                            <h3 className='modalErrorH3'>Successful login!!</h3>
+                            <small>You will be re-directed.</small>
+                        </>
+                    ) : (
+                        <>
+                            <h3 className='modalErrorH3'>
+                                {error.message === 'Network Error'
+                                    ? 'An error occurred while logging in'
+                                    : 'Incorrect username or password'}
+                                .
+                            </h3>
+                            <Button
+                                className='noDeleteButton'
+                                variant='primary'
+                                onClick={closeModals}
+                            >
+                                Please try again...
+                            </Button>
+                        </>
+                    )}
                 </Modal>
             )}
             <div className='infoContainer'>

@@ -11,5 +11,7 @@ export const getAdvertsFilter = (state) => state.filtered;
 
 export const getUi = (state) => state.ui;
 
+export const getModalstate = (state) => state.modal;
+
 export const getTags = (state) => state.tagsList.data;
 export const areTagsLoaded = (state) => state.tagsList.areLoaded;

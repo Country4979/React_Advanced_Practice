@@ -41,9 +41,11 @@ export const defaultState = {
         isLoading: false,
         error: null,
         dataFiltered: false,
+    },
+    modal: {
         isOpen: false,
         modalType: null,
-    },
+    }
 };
 
 export function modal(state = defaultState.ui, action) {
